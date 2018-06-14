@@ -8,6 +8,10 @@ class RootWidget(FloatLayout):
        By default it is inherited from BoxLayout,
        you can use any other layout/widget depending on your usage.
     '''
+
+    # Variáveis da UI
+    teste = 1
+
     pass
 
 
