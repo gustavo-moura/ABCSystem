@@ -9,28 +9,38 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from overview import Ui_MainWindow
 
+#funcao para verificar se usuario e senha correspondem
+def autentica(username, password):
+    if username==password:
+        return True
+    else:
+        return False
+
+
 class Ui_Dialog(object):
 
+    #Funcao utilizada para realizar a autenticacao do usuario no banco
     def login(self):
-        #if in_user == in_senha:
-         #   printf("login")
+    
+        username = self.in_user.text()
+        password = self.in_senha.text()
 
-        # abrir outra janela
-        self.window.hide()
+        autenticacao = autentica(username, password)
+
+        if autenticacao:
+            print("User found")
+
+            # abrir janela principal
+            self.window = QtWidgets.QMainWindow()
+            self.ui = Ui_MainWindow()
+            self.ui.setupUi(self.window)
+            self.window.show()
+
+        else:
+            print("User not found")
 
 
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self.window)
-        self.window.show()
-        '''
-        super().__init__()
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
-        self.show()  '''
-        
-
-
+       
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(400, 268)
