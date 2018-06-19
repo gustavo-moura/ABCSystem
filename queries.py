@@ -43,8 +43,11 @@ def checkLogin(user, pwd):
         print("Login nao efetuado...")
         return False
 
-# test login
-# checkLogin("adventure-works\jianshuo0", "OHTnyBvL8Z29tVGOT1/XKjVzsJCf9XezJf5TScu1fa0")
+# test login successful
+checkLogin("adventure-works\jianshuo0", "OHTnyBvL8Z29tVGOT1/XKjVzsJCf9XezJf5TScu1fa0")
+
+# test login failure
+checkLogin("uasdiusa", "zzzwe")
 
 # closing connection
 orcl.close()
