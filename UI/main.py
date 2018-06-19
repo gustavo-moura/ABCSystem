@@ -8,9 +8,25 @@ class RootWidget(FloatLayout):
        By default it is inherited from BoxLayout,
        you can use any other layout/widget depending on your usage.
     '''
+    # Definição do tipo de usuario
+    # A aplicação deve cuidar para ativar o tipo correto
+    user_tipo1 = False
+    user_tipo2 = False
+    user_tipo3 = False
+
+    te = 444
 
     # Variáveis da UI
     teste = 1
+
+
+    # Colocar o login aqui
+
+
+    # Criar verificação de segurança: ao menos um tipo de usuário == true
+    # if !(user_tipo1 && user_tipo2 && user_tipo3):
+        # ERRO
+
 
     pass
 
