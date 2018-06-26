@@ -66,6 +66,88 @@ class connection():
             print("Deu erro nos top 15")
             return None
 
+    def rel_1():
+        ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
+        orcl = cx_Oracle.connect(ORACLE_CONNECT)
+        print("Connected to Oracle: " + orcl.version)
+
+        try:
+            query = "SELECT P.nome, P.email, V.data_venda, C.cartao_tipo, C.cartao_numero, C.cartao_validade_mes, C.cartao_validade_ano FROM Cliente C JOIN Pessoa P ON P.id_pessoa=C.id_pessoa JOIN Venda V ON C.id_cliente=V.id_cliente WHERE TO_DATE(C.CARTAO_VALIDADE_MES||'/'||C.CARTAO_VALIDADE_ANO, 'MM/YYYY')<SYSDATE"
+            curs = orcl.cursor()
+            curs.execute(query)
+            
+            rows = curs.fetchall()
+
+            commit = "COMMIT"
+            curs = orcl.cursor()
+            curs.execute(commit)
+            orcl.close()
+            return rows
+        except:
+            print("Erro na query...")
+            orcl.close()
+            return None
+
+    def rel_2():
+        try:
+            query = "SELECT P.nome, D.nome, H.turno, H.data_entrada, empregado_ativo(H.data_saida) FROM Pessoa P JOIN HistoricoDepartamento H ON P.id_pessoa=H.id_pessoa JOIN Departamento D ON D.id_departamento=H.id_departamento"
+            curs = orcl.cursor()
+            curs.execute(query)
+            
+            rows = curs.fetchall()
+
+            orcl.close()
+            return rows
+        except:
+            print("Erro na query...")
+            orcl.close()
+            return None
+    
+    def rel_3_1():
+        try:
+            query = "SELECT SUM(valor_frete), EXTRACT(YEAR FROM data_venda) FROM VENDA GROUP BY EXTRACT(YEAR FROM data_venda) ORDER BY 2"
+            curs = orcl.cursor()
+            curs.execute(query)
+            
+            rows1 = curs.fetchall()
+
+            orcl.close()
+            return rows1
+        except:
+            print("Erro na query...")
+            orcl.close()
+            return None
+
+    def rel_3_2():
+        try:
+            query = "SELECT SUM(VALOR_FRETE), EXTRACT(YEAR FROM DATA_VENDA) FROM VENDA WHERE TOTAL>2000 GROUP BY EXTRACT(YEAR FROM DATA_VENDA) ORDER BY 2"
+            curs = orcl.cursor()
+            curs.execute(query)
+            
+            rows2 = curs.fetchall()
+
+            orcl.close()
+            return rows2
+        except:
+            print("Erro na query...")
+            orcl.close()
+            return None
+
+    def rel_3_3():
+        try:
+            query = "SELECT SUM(VALOR_FRETE), EXTRACT(YEAR FROM DATA_VENDA) FROM VENDA WHERE TOTAL<=2000 GROUP BY EXTRACT(YEAR FROM DATA_VENDA) ORDER BY 2"
+            curs = orcl.cursor()
+            curs.execute(query)
+            
+            rows3 = curs.fetchall()
+
+            orcl.close()
+            return rows3
+        except:
+            print("Erro na query...")
+            orcl.close()
+            return None
+
 
     def disconnect():
         # closing connection

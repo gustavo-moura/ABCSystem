@@ -1,3 +1,4 @@
 .vscode/*
 python_rest/*
 react_node_api/*
+UI/__pycache__/**
