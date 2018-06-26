@@ -79,6 +79,11 @@ class Ui_MainWindow(object):
         self.atualiza_1()
         self.atualiza_2()
         self.atualiza_3()
+        self.atualiza_4()
+        self.atualiza_5()
+        self.atualiza_6()
+        self.atualiza_7()
+        self.atualiza_8()
 
     # total vendido no dia, mes e ano
     def atualiza_1(self):
@@ -108,9 +113,9 @@ class Ui_MainWindow(object):
 
     # top 15 produtos mais vendidos
     def atualiza_3(self):
-        self.tabledata = connection.top15products()
+        tabledata = connection.top15products()
         header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
-        tablemodel = MyTableModel(self.tabledata, header, self)
+        tablemodel = MyTableModel(tabledata, header, self)
         self.tb_3.setModel(tablemodel)
         vh = self.tb_3.verticalHeader()
         vh.setVisible(False)
@@ -118,45 +123,98 @@ class Ui_MainWindow(object):
         hh.setStretchLastSection(True)
         self.tb_3.resizeColumnsToContents()
         self.tb_3.resizeRowsToContents()
-        
+
+    # Melhores clientes do ano
+    def atualiza_4(self):
+        tabledata = connection.top15products()
+        header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+        tablemodel = MyTableModel(tabledata, header, self)
+        self.tb_4.setModel(tablemodel)
+        vh = self.tb_4.verticalHeader()
+        vh.setVisible(False)
+        hh = self.tb_4.horizontalHeader()
+        hh.setStretchLastSection(True)
+        self.tb_4.resizeColumnsToContents()
+        self.tb_4.resizeRowsToContents()
+
+    # Melhores clientes Ever
+    def atualiza_5(self):
+        a=0
+
+    # produtos acabando (estoque < 10)
+    def atualiza_6(self):
+        a=0
+
+    # Total vendido por mês
+    def atualiza_7(self):
+        a=0
+
+    # Total vendido por Ano
+    def atualiza_8(self):
+        a=0
 
     # ################# CLICK
 
-    # Standard para criação de relatório
-    def criaRelatorio(self, id, titulo):
+    # Standard para criação de simulacao
+    def criaSimulacao(self, id, titulo):
         self.widget.close()
         self.widget_relatorio.show()
         id_relatorio = id
         self.lb_titulo.setText(titulo)
 
-    # Standard para criação de simulacao
-    def criaRelatorio(self, id, titulo):
+    # Standard para criação de relatório
+    def criaRelatorio(self, id, titulo, tabledata, header):
         self.widget.close()
         self.widget_relatorio.show()
         id_relatorio = id
         self.lb_titulo.setText(titulo)
+
+        # Criação da tabela de relatorio generica
+        tablemodel = MyTableModel(tabledata, header, self)
+        self.tb_relatorio.setModel(tablemodel)
+        vh = self.tb_relatorio.verticalHeader()
+        vh.setVisible(False)
+        hh = self.tb_relatorio.horizontalHeader()
+        hh.setStretchLastSection(True)
+        self.tb_relatorio.resizeColumnsToContents()
+        self.tb_relatorio.resizeRowsToContents()
 
 
     def click_actionR1(self, MainWindow):
-        self.criaRelatorio(1, "Clientes com Cartões Vencidos")
+        tabledata = connection.rel_1()
+        header = ['NOME', 'E-MAIL', 'DATA DA VENDA', 'TIPO DE CARTÃO', 'NÚMERO DO CARTÃO', 'MÊS DA VALIDADE DO CARTÃO', 'ANO DA VALIDADE DO CARTÃO']
+        self.criaRelatorio(1, "Clientes com Cartões Vencidos", tabledata, header)
+
 
     def click_actionR2(self, MainWindow):
-        self.criaRelatorio(2, "Histórico de Departamento de Funcionários")
+        tabledata = connection.rel_2()
+        header = ['NOME', 'DEPARTAMENTO', 'TURNO', 'DATA DE ENTRADA', 'DATA DE SAÍDA']
+        self.criaRelatorio(2, "Histórico de Departamento de Funcionários", tabledata, header)
 
     def click_actionR3(self, MainWindow):
-        self.criaRelatorio(3, "Dados de frete")
+        tabledata = connection.rel_3()
+        header = ['ANO', 'SOMA TOTAL DOS FRETES', '> 2000um', '<= 2000um']
+        self.criaRelatorio(3, "Dados de frete", tabledata, header)
 
     def click_actionR4(self, MainWindow):
-        self.criaRelatorio(4, "Informações das vendas anuais")
+        tabledata = connection.rel_4()
+        header = ['MÊS', 'TOTAL VENDIDO']
+        self.criaRelatorio(4, "Informações das vendas anuais", tabledata, header)
 
     def click_actionR5(self, MainWindow):
-        self.criaRelatorio(5, "Top 15 produtos vendidos no semestre")
+        tabledata = connection.rel_5()
+        header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+        self.criaRelatorio(5, "Top 15 produtos vendidos no semestre", tabledata, header)
 
     def click_actionR6(self, MainWindow):
-        self.criaRelatorio(6, "Produtos de vendas casadas")
+        tabledata = connection.rel_6()
+        header = ['A-CATEGORIA', 'A-SUBCATEGORIA', 'A-PRODUTO', 'A-QUANTIDADE', 'B-CATEGORIA', 'B-SUBCATEGORIA', 'B-PRODUTO', 'B-QUANTIDADE', 'TOTAL DOS DOIS JUNTOS']
+        self.criaRelatorio(6, "Produtos de vendas casadas", tabledata, header)
 
     def click_actionR7(self, MainWindow):
-        self.criaRelatorio(7, "Vendas por país")
+        tabledata = connection.rel_7()
+        header = ['TOTAL VENDIDO', 'PAÍS', ]
+        self.criaRelatorio(7, "Vendas por país", tabledata, header)
 
     def click_actionS1(self, MainWindow):
         a=0
