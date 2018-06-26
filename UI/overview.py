@@ -10,6 +10,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
+from queries2 import connection
+
 class Ui_MainWindow(object):
     id_relatorio = 0
     tipoUser = 3
@@ -75,15 +77,12 @@ class Ui_MainWindow(object):
     # ################# OVERVIEW
     def populaOverview(self):
         self.pop_top15()
-
-
+        self.atualiza_1()
+        self.atualiza_2()
 
     def pop_top15(self):
-        self.tabledata = [[1234567890,2,3,4,5],
-                          [6,7,8,9,10],
-                          [11,12,13,14,15],
-                          [16,17,18,19,20]]
-        header = ['col_0', 'col_1', 'col_2', 'col_3', 'col_4']
+        self.tabledata = connection.top15products()
+        header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
         tablemodel = MyTableModel(self.tabledata, header, self)
         self.tb_3.setModel(tablemodel)
         vh = self.tb_3.verticalHeader()
@@ -92,6 +91,32 @@ class Ui_MainWindow(object):
         hh.setStretchLastSection(True)
         self.tb_3.resizeColumnsToContents()
         self.tb_3.resizeRowsToContents()
+
+    # total vendido no dia, mes e ano
+    def atualiza_1(self):
+        dia = 999
+        mes = 999
+        ano = 999
+
+        self.lb_1_dia.setText(str(dia))
+        self.lb_1_mes.setText(str(mes))
+        self.lb_1_ano.setText(str(ano))
+
+    # top 3 funcionarios do mês e ano
+    def atualiza_2(self):
+        m1 = "JA"
+        m2 = "JE"
+        m3 = "JI"
+        a1 = "BA"
+        a2 = "BE"
+        a3 = "BI"
+
+        self.lb_2_m1.setText(str(m1))
+        self.lb_2_m2.setText(str(m2))
+        self.lb_2_m3.setText(str(m3))
+        self.lb_2_a1.setText(str(a1))
+        self.lb_2_a2.setText(str(a2))
+        self.lb_2_a3.setText(str(a3))
 
 
 
