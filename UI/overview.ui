@@ -965,6 +965,28 @@
       <height>381</height>
      </rect>
     </property>
+    <widget class="QLabel" name="lb_titulo_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>681</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Century Gothic</family>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Simulação Bla bla bla</string>
+     </property>
+     <property name="buddy">
+      <cstring>in_1_data</cstring>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

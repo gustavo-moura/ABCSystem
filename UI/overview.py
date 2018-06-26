@@ -76,6 +76,8 @@ class Ui_MainWindow(object):
     def populaOverview(self):
         self.pop_top15()
 
+
+
     def pop_top15(self):
         self.tabledata = [[1234567890,2,3,4,5],
                           [6,7,8,9,10],
@@ -96,6 +98,13 @@ class Ui_MainWindow(object):
     # ################# CLICK
 
     # Standard para criação de relatório
+    def criaRelatorio(self, id, titulo):
+        self.widget.close()
+        self.widget_relatorio.show()
+        id_relatorio = id
+        self.lb_titulo.setText(titulo)
+
+    # Standard para criação de simulacao
     def criaRelatorio(self, id, titulo):
         self.widget.close()
         self.widget_relatorio.show()
