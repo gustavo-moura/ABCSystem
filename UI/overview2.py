@@ -7,6 +7,8 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -212,7 +214,22 @@ class Ui_MainWindow(object):
         font.setPointSize(11)
         self.groupBox_3.setFont(font)
         self.groupBox_3.setObjectName("groupBox_3")
-        self.tb_3 = QtWidgets.QTableView(self.groupBox_3)
+        self.tb_3 = QtWidgets.QTableView(self.groupBox_3)   # 15 PRODUTOS VENDIDOS
+        ####
+        self.tabledata = [[1234567890,2,3,4,5],
+                          [6,7,8,9,10],
+                          [11,12,13,14,15],
+                          [16,17,18,19,20]]
+        header = ['col_0', 'col_1', 'col_2', 'col_3', 'col_4']
+        tablemodel = MyTableModel(self.tabledata, header, self)
+        self.tb_3.setModel(tablemodel)
+        vh = self.tb_3.verticalHeader()
+        vh.setVisible(False)
+        hh = self.tb_3.horizontalHeader()
+        hh.setStretchLastSection(True)
+        self.tb_3.resizeColumnsToContents()
+        self.tb_3.resizeRowsToContents()
+        ####
         self.tb_3.setGeometry(QtCore.QRect(10, 21, 241, 301))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
@@ -471,3 +488,46 @@ class Ui_MainWindow(object):
         self.actionS3.setText(_translate("MainWindow", "S3 - Venda"))
         self.actionCr_ditos.setText(_translate("MainWindow", "Créditos"))
 
+class MyTableModel(QAbstractTableModel):
+    def __init__(self, datain, headerdata, parent=None):
+        """
+        Args:
+            datain: a list of lists\n
+            headerdata: a list of strings
+        """
+        QAbstractTableModel.__init__(self, None)
+        self.arraydata = datain
+        self.headerdata = headerdata
+
+    def rowCount(self, parent):
+        return len(self.arraydata)
+
+    def columnCount(self, parent):
+        if len(self.arraydata) > 0: 
+            return len(self.arraydata[0]) 
+        return 0
+
+    def data(self, index, role):
+        if not index.isValid():
+            return QVariant()
+        elif role != Qt.DisplayRole:
+            return QVariant()
+        return QVariant(self.arraydata[index.row()][index.column()])
+
+    def setData(self, index, value, role):
+        pass         # not sure what to put here
+
+    def headerData(self, col, orientation, role):
+        if orientation == Qt.Horizontal and role == Qt.DisplayRole:
+            return QVariant(self.headerdata[col])
+        return QVariant()
+
+    def sort(self, Ncol, order):
+        """
+        Sort table by given column number.
+        """
+        self.emit(SIGNAL("layoutAboutToBeChanged()"))
+        self.arraydata = sorted(self.arraydata, key=operator.itemgetter(Ncol))       
+        if order == Qt.DescendingOrder:
+            self.arraydata.reverse()
+        self.emit(SIGNAL("layoutChanged()"))
