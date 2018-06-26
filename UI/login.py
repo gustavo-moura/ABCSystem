@@ -30,6 +30,9 @@ class Ui_Dialog(object):
 
         autenticacao = connection.checkLogin(user, pwd)
 
+        # debug
+        autenticacao = True
+
         if autenticacao:
             print("User found")
 
