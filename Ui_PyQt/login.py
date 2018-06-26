@@ -30,6 +30,8 @@ class Ui_Dialog(object):
 
         autenticacao = connection.checkLogin(user, pwd)
 
+        connection.top15products()
+
         if autenticacao:
             print("User found")
 
