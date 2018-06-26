@@ -13,6 +13,8 @@ class Ui_MainWindow(object):
     tipoUser = 1
     user = ""
 
+
+    # Determina o que cada tipo de usuário pode visualizar
     def checkPermissoes(self):
         if self.tipoUser == 1:
             self.widget.close()
@@ -26,7 +28,7 @@ class Ui_MainWindow(object):
             self.menuSim.setEnabled(False)
 
 
-        if self.tipoUser == 2:
+        elif self.tipoUser == 2:
             self.widget.close()
             self.actionR1.setEnabled(False)
             self.actionR2.setEnabled(False)
@@ -37,11 +39,33 @@ class Ui_MainWindow(object):
             self.actionR7.setEnabled(False)
             self.menuSim.setEnabled(True)    #
 
-        if self.tipoUser == 3:
+        elif self.tipoUser == 3:
             pass
             # Tem acesso a tudo
 
 
+    # Define o que cada botão da interface executa
+    def settriggers(self):
+        self.widget_relatorio.close()
+
+        self.actionR1.triggered.connect(self.click_actionR1)
+        self.actionR2.triggered.connect(self.click_actionR2)
+        self.actionR3.triggered.connect(self.click_actionR3)
+        self.actionR4.triggered.connect(self.click_actionR4)
+        self.actionR5.triggered.connect(self.click_actionR5)
+        self.actionR6.triggered.connect(self.click_actionR6)
+        self.actionR7.triggered.connect(self.click_actionR7)
+        self.actionS1.triggered.connect(self.click_actionS1)
+        self.actionS2.triggered.connect(self.click_actionS2)
+        self.actionS3.triggered.connect(self.click_actionS3)
+
+        self.lb_nomeuser.setText(self.user)
+        self.lb_tipouser.setText(str(self.tipoUser))
+
+
+    # ################# CLICK
+
+    # Standard para criação de relatório
     def criaRelatorio(self, id, titulo):
         self.widget.close()
         self.widget_relatorio.show()
@@ -87,22 +111,8 @@ class Ui_MainWindow(object):
     '''
         
 
-    def settriggers(self):
-        self.widget_relatorio.close()
 
-        self.actionR1.triggered.connect(self.click_actionR1)
-        self.actionR2.triggered.connect(self.click_actionR2)
-        self.actionR3.triggered.connect(self.click_actionR3)
-        self.actionR4.triggered.connect(self.click_actionR4)
-        self.actionR5.triggered.connect(self.click_actionR5)
-        self.actionR6.triggered.connect(self.click_actionR6)
-        self.actionR7.triggered.connect(self.click_actionR7)
-        self.actionS1.triggered.connect(self.click_actionS1)
-        self.actionS2.triggered.connect(self.click_actionS2)
-        self.actionS3.triggered.connect(self.click_actionS3)
 
-        self.lb_nomeuser.setText(self.user)
-        
 
 
     def setupUi(self, MainWindow):
@@ -433,7 +443,7 @@ class Ui_MainWindow(object):
         self.pesquisar.setGeometry(QtCore.QRect(210, 50, 75, 23))
         self.pesquisar.setObjectName("pesquisar")
         self.lb_titulo = QtWidgets.QLabel(self.widget_relatorio)
-        self.lb_titulo.setGeometry(QtCore.QRect(20, 20, 171, 20))
+        self.lb_titulo.setGeometry(QtCore.QRect(20, 20, 681, 20))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
         font.setPointSize(11)
@@ -569,3 +579,4 @@ class Ui_MainWindow(object):
         self.actionS2.setText(_translate("MainWindow", "S2 - Subcategoria"))
         self.actionS3.setText(_translate("MainWindow", "S3 - Venda"))
         self.actionCr_ditos.setText(_translate("MainWindow", "Créditos"))
+

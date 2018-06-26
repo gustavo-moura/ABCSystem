@@ -337,7 +337,7 @@ class Ui_MainWindow(object):
         self.pesquisar.setGeometry(QtCore.QRect(210, 50, 75, 23))
         self.pesquisar.setObjectName("pesquisar")
         self.lb_titulo = QtWidgets.QLabel(self.widget_relatorio)
-        self.lb_titulo.setGeometry(QtCore.QRect(20, 20, 171, 20))
+        self.lb_titulo.setGeometry(QtCore.QRect(20, 20, 681, 20))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
         font.setPointSize(11)

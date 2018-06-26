@@ -31,7 +31,7 @@ class Ui_Dialog(object):
         tipoUser = connection.checkLogin(user, pwd)
         
 
-        if tipoUser == 1 || tipoUser == 2 || tipoUser == 3:
+        if (tipoUser == 1) or (tipoUser == 2) or (tipoUser == 3):
             print("User found")
 
             # abrir janela principal
