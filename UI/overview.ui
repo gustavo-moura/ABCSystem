@@ -93,7 +93,7 @@
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>40</x>
       <y>40</y>
       <width>1041</width>
       <height>611</height>
@@ -885,7 +885,10 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QWidget" name="widget_2" native="true">
+   <widget class="QWidget" name="widget_relatorio" native="true">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -894,7 +897,7 @@
       <height>491</height>
      </rect>
     </property>
-    <widget class="QTableView" name="tableView">
+    <widget class="QTableView" name="tb_relatorio">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -903,8 +906,11 @@
        <height>301</height>
       </rect>
      </property>
+     <property name="sortingEnabled">
+      <bool>false</bool>
+     </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit">
+    <widget class="QLineEdit" name="in_pesquisa">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -914,10 +920,10 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="pesquisar">
      <property name="geometry">
       <rect>
-       <x>220</x>
+       <x>210</x>
        <y>50</y>
        <width>75</width>
        <height>23</height>
@@ -925,6 +931,28 @@
      </property>
      <property name="text">
       <string>Pesquisar</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_titulo">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>681</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Century Gothic</family>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Relatório Bla bla bla</string>
+     </property>
+     <property name="buddy">
+      <cstring>in_1_data</cstring>
      </property>
     </widget>
    </widget>

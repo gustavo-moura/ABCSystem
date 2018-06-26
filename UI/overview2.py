@@ -9,102 +9,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
-    id_relatorio = 0
-    tipoUser = 1
-    user = ""
-
-    def checkPermissoes(self):
-        if self.tipoUser == 1:
-            self.widget.close()
-            self.actionR1.setEnabled(False)
-            self.actionR2.setEnabled(False)
-            self.actionR3.setEnabled(False)
-            self.actionR4.setEnabled(False)
-            self.actionR5.setEnabled(True)   #
-            self.actionR6.setEnabled(True)   #
-            self.actionR7.setEnabled(False)
-            self.menuSim.setEnabled(False)
-
-
-        if self.tipoUser == 2:
-            self.widget.close()
-            self.actionR1.setEnabled(False)
-            self.actionR2.setEnabled(False)
-            self.actionR3.setEnabled(False)
-            self.actionR4.setEnabled(False)
-            self.actionR5.setEnabled(True)   #
-            self.actionR6.setEnabled(True)   #
-            self.actionR7.setEnabled(False)
-            self.menuSim.setEnabled(True)    #
-
-        if self.tipoUser == 3:
-            pass
-            # Tem acesso a tudo
-
-
-    def criaRelatorio(self, id, titulo):
-        self.widget.close()
-        self.widget_relatorio.show()
-        id_relatorio = id
-        self.lb_titulo.setText(titulo)
-
-
-    def click_actionR1(self, MainWindow):
-        self.criaRelatorio(1, "Clientes com Cartões Vencidos")
-
-    def click_actionR2(self, MainWindow):
-        self.criaRelatorio(2, "Histórico de Departamento de Funcionários")
-
-    def click_actionR3(self, MainWindow):
-        self.criaRelatorio(3, "Dados de frete")
-
-    def click_actionR4(self, MainWindow):
-        self.criaRelatorio(4, "Informações das vendas anuais")
-
-    def click_actionR5(self, MainWindow):
-        self.criaRelatorio(5, "Top 15 produtos vendidos no semestre")
-
-    def click_actionR6(self, MainWindow):
-        self.criaRelatorio(6, "Produtos de vendas casadas")
-
-    def click_actionR7(self, MainWindow):
-        self.criaRelatorio(7, "Vendas por país")
-
-    def click_actionS1(self, MainWindow):
-        a=0
-
-    def click_actionS2(self, MainWindow):
-        a=0
-
-    def click_actionS3(self, MainWindow):
-        a=0
-
-
-    '''
-        self.actionS1.setText(_translate("MainWindow", "S1 - Produtos"))
-        self.actionS2.setText(_translate("MainWindow", "S2 - Subcategoria"))
-        self.actionS3.setText(_translate("MainWindow", "S3 - Venda"))
-    '''
-        
-
-    def settriggers(self):
-        self.widget_relatorio.close()
-
-        self.actionR1.triggered.connect(self.click_actionR1)
-        self.actionR2.triggered.connect(self.click_actionR2)
-        self.actionR3.triggered.connect(self.click_actionR3)
-        self.actionR4.triggered.connect(self.click_actionR4)
-        self.actionR5.triggered.connect(self.click_actionR5)
-        self.actionR6.triggered.connect(self.click_actionR6)
-        self.actionR7.triggered.connect(self.click_actionR7)
-        self.actionS1.triggered.connect(self.click_actionS1)
-        self.actionS2.triggered.connect(self.click_actionS2)
-        self.actionS3.triggered.connect(self.click_actionS3)
-
-        self.lb_nomeuser.setText(self.user)
-        
-
-
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1053, 1233)
@@ -511,9 +415,6 @@ class Ui_MainWindow(object):
         MainWindow.setTabOrder(self.tb_6, self.in_7_data)
         MainWindow.setTabOrder(self.in_7_data, self.in_8_data)
 
-        self.settriggers()
-        self.checkPermissoes()
-
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "ABC System"))
@@ -569,3 +470,4 @@ class Ui_MainWindow(object):
         self.actionS2.setText(_translate("MainWindow", "S2 - Subcategoria"))
         self.actionS3.setText(_translate("MainWindow", "S3 - Venda"))
         self.actionCr_ditos.setText(_translate("MainWindow", "Créditos"))
+

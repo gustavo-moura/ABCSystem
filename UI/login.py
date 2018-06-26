@@ -28,17 +28,17 @@ class Ui_Dialog(object):
         user = self.in_user.text()
         pwd = self.in_senha.text()
 
-        autenticacao = connection.checkLogin(user, pwd)
+        tipoUser = connection.checkLogin(user, pwd)
+        
 
-        # debug
-        autenticacao = True
-
-        if autenticacao:
+        if tipoUser == 1 || tipoUser == 2 || tipoUser == 3:
             print("User found")
 
             # abrir janela principal
             self.window = QtWidgets.QMainWindow()
             self.ui = Ui_MainWindow()
+            self.ui.user = user
+            self.ui.tipoUser = tipoUser
             self.ui.setupUi(self.window)
             self.window.show()
 
@@ -46,8 +46,6 @@ class Ui_Dialog(object):
             print("User not found")
 
 
-
-       
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(400, 268)
