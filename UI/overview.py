@@ -76,21 +76,9 @@ class Ui_MainWindow(object):
 
     # ################# OVERVIEW
     def populaOverview(self):
-        self.pop_top15()
         self.atualiza_1()
         self.atualiza_2()
-
-    def pop_top15(self):
-        self.tabledata = connection.top15products()
-        header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
-        tablemodel = MyTableModel(self.tabledata, header, self)
-        self.tb_3.setModel(tablemodel)
-        vh = self.tb_3.verticalHeader()
-        vh.setVisible(False)
-        hh = self.tb_3.horizontalHeader()
-        hh.setStretchLastSection(True)
-        self.tb_3.resizeColumnsToContents()
-        self.tb_3.resizeRowsToContents()
+        self.atualiza_3()
 
     # total vendido no dia, mes e ano
     def atualiza_1(self):
@@ -118,7 +106,19 @@ class Ui_MainWindow(object):
         self.lb_2_a2.setText(str(a2))
         self.lb_2_a3.setText(str(a3))
 
-
+    # top 15 produtos mais vendidos
+    def atualiza_3(self):
+        self.tabledata = connection.top15products()
+        header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+        tablemodel = MyTableModel(self.tabledata, header, self)
+        self.tb_3.setModel(tablemodel)
+        vh = self.tb_3.verticalHeader()
+        vh.setVisible(False)
+        hh = self.tb_3.horizontalHeader()
+        hh.setStretchLastSection(True)
+        self.tb_3.resizeColumnsToContents()
+        self.tb_3.resizeRowsToContents()
+        
 
     # ################# CLICK
 
