@@ -7,8 +7,6 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -214,22 +212,7 @@ class Ui_MainWindow(object):
         font.setPointSize(11)
         self.groupBox_3.setFont(font)
         self.groupBox_3.setObjectName("groupBox_3")
-        self.tb_3 = QtWidgets.QTableView(self.groupBox_3)   # 15 PRODUTOS VENDIDOS
-        ####
-        self.tabledata = [[1234567890,2,3,4,5],
-                          [6,7,8,9,10],
-                          [11,12,13,14,15],
-                          [16,17,18,19,20]]
-        header = ['col_0', 'col_1', 'col_2', 'col_3', 'col_4']
-        tablemodel = MyTableModel(self.tabledata, header, self)
-        self.tb_3.setModel(tablemodel)
-        vh = self.tb_3.verticalHeader()
-        vh.setVisible(False)
-        hh = self.tb_3.horizontalHeader()
-        hh.setStretchLastSection(True)
-        self.tb_3.resizeColumnsToContents()
-        self.tb_3.resizeRowsToContents()
-        ####
+        self.tb_3 = QtWidgets.QTableView(self.groupBox_3)
         self.tb_3.setGeometry(QtCore.QRect(10, 21, 241, 301))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
@@ -316,6 +299,13 @@ class Ui_MainWindow(object):
         self.in_7_data.setDateTime(QtCore.QDateTime(QtCore.QDate(2018, 6, 21), QtCore.QTime(0, 0, 0)))
         self.in_7_data.setCalendarPopup(True)
         self.in_7_data.setObjectName("in_7_data")
+        self.tb_7 = QtWidgets.QTableView(self.groupBox_7)
+        self.tb_7.setGeometry(QtCore.QRect(10, 50, 441, 141))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(10)
+        self.tb_7.setFont(font)
+        self.tb_7.setObjectName("tb_7")
         self.groupBox_8 = QtWidgets.QGroupBox(self.frame)
         self.groupBox_8.setGeometry(QtCore.QRect(550, 380, 461, 201))
         font = QtGui.QFont()
@@ -339,14 +329,17 @@ class Ui_MainWindow(object):
         font.setPointSize(8)
         self.label_15.setFont(font)
         self.label_15.setObjectName("label_15")
+        self.tb_8 = QtWidgets.QTableView(self.groupBox_8)
+        self.tb_8.setGeometry(QtCore.QRect(10, 50, 441, 141))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(10)
+        self.tb_8.setFont(font)
+        self.tb_8.setObjectName("tb_8")
         self.widget_relatorio = QtWidgets.QWidget(self.centralwidget)
         self.widget_relatorio.setEnabled(True)
-        self.widget_relatorio.setGeometry(QtCore.QRect(10, 40, 831, 491))
+        self.widget_relatorio.setGeometry(QtCore.QRect(10, 40, 981, 491))
         self.widget_relatorio.setObjectName("widget_relatorio")
-        self.tb_relatorio = QtWidgets.QTableView(self.widget_relatorio)
-        self.tb_relatorio.setGeometry(QtCore.QRect(20, 80, 681, 301))
-        self.tb_relatorio.setSortingEnabled(False)
-        self.tb_relatorio.setObjectName("tb_relatorio")
         self.in_pesquisa = QtWidgets.QLineEdit(self.widget_relatorio)
         self.in_pesquisa.setGeometry(QtCore.QRect(20, 50, 181, 20))
         self.in_pesquisa.setObjectName("in_pesquisa")
@@ -360,6 +353,38 @@ class Ui_MainWindow(object):
         font.setPointSize(11)
         self.lb_titulo.setFont(font)
         self.lb_titulo.setObjectName("lb_titulo")
+        self.widget_relatorio_normal = QtWidgets.QWidget(self.widget_relatorio)
+        self.widget_relatorio_normal.setGeometry(QtCore.QRect(10, 80, 811, 401))
+        self.widget_relatorio_normal.setObjectName("widget_relatorio_normal")
+        self.tb_relatorio = QtWidgets.QTableView(self.widget_relatorio_normal)
+        self.tb_relatorio.setGeometry(QtCore.QRect(10, 10, 791, 381))
+        self.tb_relatorio.setSortingEnabled(False)
+        self.tb_relatorio.setObjectName("tb_relatorio")
+        self.widget_relatorio_P3 = QtWidgets.QWidget(self.widget_relatorio)
+        self.widget_relatorio_P3.setGeometry(QtCore.QRect(10, 70, 851, 411))
+        self.widget_relatorio_P3.setObjectName("widget_relatorio_P3")
+        self.tb_relatorio_P3_1 = QtWidgets.QTableView(self.widget_relatorio_P3)
+        self.tb_relatorio_P3_1.setGeometry(QtCore.QRect(10, 20, 261, 381))
+        self.tb_relatorio_P3_1.setSortingEnabled(False)
+        self.tb_relatorio_P3_1.setObjectName("tb_relatorio_P3_1")
+        self.tb_relatorio_P3_2 = QtWidgets.QTableView(self.widget_relatorio_P3)
+        self.tb_relatorio_P3_2.setGeometry(QtCore.QRect(290, 20, 261, 381))
+        self.tb_relatorio_P3_2.setSortingEnabled(False)
+        self.tb_relatorio_P3_2.setObjectName("tb_relatorio_P3_2")
+        self.tb_relatorio_P3_3 = QtWidgets.QTableView(self.widget_relatorio_P3)
+        self.tb_relatorio_P3_3.setGeometry(QtCore.QRect(570, 20, 261, 381))
+        self.tb_relatorio_P3_3.setSortingEnabled(False)
+        self.tb_relatorio_P3_3.setObjectName("tb_relatorio_P3_3")
+        self.widget_simulacao = QtWidgets.QWidget(self.centralwidget)
+        self.widget_simulacao.setGeometry(QtCore.QRect(10, 1160, 701, 381))
+        self.widget_simulacao.setObjectName("widget_simulacao")
+        self.lb_titulo_2 = QtWidgets.QLabel(self.widget_simulacao)
+        self.lb_titulo_2.setGeometry(QtCore.QRect(10, 10, 681, 20))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(11)
+        self.lb_titulo_2.setFont(font)
+        self.lb_titulo_2.setObjectName("lb_titulo_2")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1053, 21))
@@ -420,6 +445,7 @@ class Ui_MainWindow(object):
         self.label_16.setBuddy(self.in_7_data)
         self.label_15.setBuddy(self.in_8_data)
         self.lb_titulo.setBuddy(self.in_1_data)
+        self.lb_titulo_2.setBuddy(self.in_1_data)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -472,6 +498,7 @@ class Ui_MainWindow(object):
         self.label_15.setText(_translate("MainWindow", "Selecione o período:"))
         self.pesquisar.setText(_translate("MainWindow", "Pesquisar"))
         self.lb_titulo.setText(_translate("MainWindow", "Relatório Bla bla bla"))
+        self.lb_titulo_2.setText(_translate("MainWindow", "Simulação Bla bla bla"))
         self.menuUser.setTitle(_translate("MainWindow", "Usuário"))
         self.menuSim.setTitle(_translate("MainWindow", "Simulações"))
         self.menuRel.setTitle(_translate("MainWindow", "Relatórios"))
@@ -488,46 +515,3 @@ class Ui_MainWindow(object):
         self.actionS3.setText(_translate("MainWindow", "S3 - Venda"))
         self.actionCr_ditos.setText(_translate("MainWindow", "Créditos"))
 
-class MyTableModel(QAbstractTableModel):
-    def __init__(self, datain, headerdata, parent=None):
-        """
-        Args:
-            datain: a list of lists\n
-            headerdata: a list of strings
-        """
-        QAbstractTableModel.__init__(self, None)
-        self.arraydata = datain
-        self.headerdata = headerdata
-
-    def rowCount(self, parent):
-        return len(self.arraydata)
-
-    def columnCount(self, parent):
-        if len(self.arraydata) > 0: 
-            return len(self.arraydata[0]) 
-        return 0
-
-    def data(self, index, role):
-        if not index.isValid():
-            return QVariant()
-        elif role != Qt.DisplayRole:
-            return QVariant()
-        return QVariant(self.arraydata[index.row()][index.column()])
-
-    def setData(self, index, value, role):
-        pass         # not sure what to put here
-
-    def headerData(self, col, orientation, role):
-        if orientation == Qt.Horizontal and role == Qt.DisplayRole:
-            return QVariant(self.headerdata[col])
-        return QVariant()
-
-    def sort(self, Ncol, order):
-        """
-        Sort table by given column number.
-        """
-        self.emit(SIGNAL("layoutAboutToBeChanged()"))
-        self.arraydata = sorted(self.arraydata, key=operator.itemgetter(Ncol))       
-        if order == Qt.DescendingOrder:
-            self.arraydata.reverse()
-        self.emit(SIGNAL("layoutChanged()"))

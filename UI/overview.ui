@@ -807,6 +807,22 @@
         <bool>true</bool>
        </property>
       </widget>
+      <widget class="QTableView" name="tb_7">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>50</y>
+         <width>441</width>
+         <height>141</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Century Gothic</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+      </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_8">
       <property name="geometry">
@@ -882,6 +898,22 @@
         <cstring>in_8_data</cstring>
        </property>
       </widget>
+      <widget class="QTableView" name="tb_8">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>50</y>
+         <width>441</width>
+         <height>141</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Century Gothic</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+      </widget>
      </widget>
     </widget>
    </widget>
@@ -893,23 +925,10 @@
      <rect>
       <x>10</x>
       <y>40</y>
-      <width>831</width>
+      <width>981</width>
       <height>491</height>
      </rect>
     </property>
-    <widget class="QTableView" name="tb_relatorio">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>80</y>
-       <width>681</width>
-       <height>301</height>
-      </rect>
-     </property>
-     <property name="sortingEnabled">
-      <bool>false</bool>
-     </property>
-    </widget>
     <widget class="QLineEdit" name="in_pesquisa">
      <property name="geometry">
       <rect>
@@ -955,12 +974,84 @@
       <cstring>in_1_data</cstring>
      </property>
     </widget>
+    <widget class="QWidget" name="widget_relatorio_normal" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>811</width>
+       <height>401</height>
+      </rect>
+     </property>
+     <widget class="QTableView" name="tb_relatorio">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>791</width>
+        <height>381</height>
+       </rect>
+      </property>
+      <property name="sortingEnabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="widget_relatorio_P3" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>70</y>
+       <width>851</width>
+       <height>411</height>
+      </rect>
+     </property>
+     <widget class="QTableView" name="tb_relatorio_P3_1">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>261</width>
+        <height>381</height>
+       </rect>
+      </property>
+      <property name="sortingEnabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QTableView" name="tb_relatorio_P3_2">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>20</y>
+        <width>261</width>
+        <height>381</height>
+       </rect>
+      </property>
+      <property name="sortingEnabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QTableView" name="tb_relatorio_P3_3">
+      <property name="geometry">
+       <rect>
+        <x>570</x>
+        <y>20</y>
+        <width>261</width>
+        <height>381</height>
+       </rect>
+      </property>
+      <property name="sortingEnabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </widget>
    </widget>
    <widget class="QWidget" name="widget_simulacao" native="true">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>680</y>
+      <y>1160</y>
       <width>701</width>
       <height>381</height>
      </rect>
