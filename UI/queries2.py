@@ -149,7 +149,7 @@ class connection():
         ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
         orcl = cx_Oracle.connect(ORACLE_CONNECT)
         print("Connected to Oracle: " + orcl.version)
-        
+
         try:
             query = "SELECT SUM(VALOR_FRETE), EXTRACT(YEAR FROM DATA_VENDA) FROM VENDA WHERE TOTAL<=2000 GROUP BY EXTRACT(YEAR FROM DATA_VENDA) ORDER BY 2"
             curs = orcl.cursor()
@@ -159,6 +159,87 @@ class connection():
 
             orcl.close()
             return rows3
+        except:
+            print("Erro na query...")
+            orcl.close()
+            return None
+
+    def rel_4(ano):
+        ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
+        orcl = cx_Oracle.connect(ORACLE_CONNECT)
+        print("Connected to Oracle: " + orcl.version)
+
+        if(ano==None):
+            ano = 2010
+
+        try:
+            query = "SELECT SUM(subtotal), EXTRACT(MONTH FROM data_venda) FROM Venda WHERE EXTRACT(YEAR FROM data_venda)="+ano+"GROUP BY EXTRACT(MONTH FROM data_venda)ORDER BY 2"
+            curs = orcl.cursor()
+            curs.execute(query)
+            
+            rows = curs.fetchall()
+
+            orcl.close()
+            return rows
+        except:
+            print("Erro na query...")
+            orcl.close()
+            return None
+    
+    def rel_5():
+        ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
+        orcl = cx_Oracle.connect(ORACLE_CONNECT)
+        print("Connected to Oracle: " + orcl.version)
+
+        query = "SELECT NOME, PRECO, PESO, CATEGORIA, QUANTIDADE FROM (SELECT P.NOME, P.PRECO, P.PESO, C.NOME CATEGORIA, SUM(QUANTIDADE) QUANTIDADE FROM VENDA V JOIN ITEMVENDA I ON V.ID_VENDA=I.ID_VENDA JOIN PRODUTO P ON P.ID_PRODUTO=I.ID_PRODUTO JOIN SUBCATEGORIA S ON P.ID_SUBCATEGORIA=S.ID_SUBCATEGORIA JOIN CATEGORIA C ON C.ID_CATEGORIA=S.ID_CATEGORIA WHERE V.DATA_VENDA<=sysdate AND V.DATA_VENDA>=add_months(sysdate,  -6) GROUP BY P.NOME, P.PRECO, P.PESO, C.NOME ORDER BY 5 DESC) WHERE ROWNUM<=15"
+
+        try:
+            curs = orcl.cursor()
+            curs.execute(query)
+            rows = curs.fetchall()
+
+            orcl.close()
+            return rows
+        except cx_Oracle.DatabaseError as e:
+            print(e)
+            orcl.close()
+            print("Deu erro nos top 15")
+            return None
+
+    def rel_6():
+        ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
+        orcl = cx_Oracle.connect(ORACLE_CONNECT)
+        print("Connected to Oracle: " + orcl.version)
+
+        try:
+            query = "SELECT J.CATEGORIA CATEGORIA_1, J.SUBCATEGORIA SUBCATEGORIA_1, J.PRODUTO PRODUTO_1, SUM(J.QTD) QUANTIDADE_1, K.CATEGORIA CATEGORIA_2, K.SUBCATEGORIA SUBCATEGORIA_2, K.PRODUTO PRODUTO_2, SUM(K.QTD) QUANTIDADE_2, COUNT(K.VENDA) QTD_VENDA FROM (SELECT P.NOME PRODUTO, C.NOME CATEGORIA, S.NOME SUBCATEGORIA, I.ID_VENDA VENDA, I.QUANTIDADE_ESTOQUE QTD FROM PRODUTO P JOIN SUBCATEGORIA S ON S.ID_SUBCATEGORIA=P.ID_SUBCATEGORIA JOIN CATEGORIA C ON C.ID_CATEGORIA=S.ID_CATEGORIA JOIN ITEMVENDA I ON I.ID_PRODUTO=P.ID_PRODUTO) J JOIN (SELECT P.NOME PRODUTO, C.NOME CATEGORIA, S.NOME SUBCATEGORIA, I.ID_VENDA VENDA, I.QUANTIDADE_ESTOQUE QTD FROM PRODUTO P JOIN SUBCATEGORIA S ON S.ID_SUBCATEGORIA=P.ID_SUBCATEGORIA JOIN CATEGORIA C ON C.ID_CATEGORIA=S.ID_CATEGORIA JOIN ITEMVENDA I ON I.ID_PRODUTO=P.ID_PRODUTO) K ON J.VENDA=K.VENDA WHERE J.PRODUTO||J.CATEGORIA||J.SUBCATEGORIA!=K.PRODUTO||K.CATEGORIA||K.SUBCATEGORIA GROUP BY J.PRODUTO, J.CATEGORIA, J.SUBCATEGORIA, K.PRODUTO, K.CATEGORIA, K.SUBCATEGORIA ORDER BY 7 DESC"
+            curs = orcl.cursor()
+            curs.execute(query)
+            
+            rows = curs.fetchall()
+
+            orcl.close()
+            return rows
+        except:
+            print("Erro na query...")
+            orcl.close()
+            return None
+
+    def rel_7():
+        ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
+        orcl = cx_Oracle.connect(ORACLE_CONNECT)
+        print("Connected to Oracle: " + orcl.version)
+
+        try:
+            query = "SELECT E.PAIS, SUM(SUBTOTAL) FROM VENDA V JOIN CLIENTE C ON C.ID_CLIENTE=V.ID_CLIENTE JOIN PESSOA P ON P.ID_PESSOA=C.ID_PESSOA JOIN ENDERECO E ON E.ID_ENDERECO=P.ID_ENDERECO WHERE PAIS=pais GROUP BY E.PAIS"
+"
+            curs = orcl.cursor()
+            curs.execute(query)
+            
+            rows = curs.fetchall()
+
+            orcl.close()
+            return rows
         except:
             print("Erro na query...")
             orcl.close()
