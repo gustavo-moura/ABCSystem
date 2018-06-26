@@ -89,6 +89,10 @@ class connection():
             return None
 
     def rel_2():
+        ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
+        orcl = cx_Oracle.connect(ORACLE_CONNECT)
+        print("Connected to Oracle: " + orcl.version)
+
         try:
             query = "SELECT P.nome, D.nome, H.turno, H.data_entrada, empregado_ativo(H.data_saida) FROM Pessoa P JOIN HistoricoDepartamento H ON P.id_pessoa=H.id_pessoa JOIN Departamento D ON D.id_departamento=H.id_departamento"
             curs = orcl.cursor()
@@ -104,6 +108,10 @@ class connection():
             return None
     
     def rel_3_1():
+        ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
+        orcl = cx_Oracle.connect(ORACLE_CONNECT)
+        print("Connected to Oracle: " + orcl.version)
+
         try:
             query = "SELECT SUM(valor_frete), EXTRACT(YEAR FROM data_venda) FROM VENDA GROUP BY EXTRACT(YEAR FROM data_venda) ORDER BY 2"
             curs = orcl.cursor()
@@ -119,6 +127,10 @@ class connection():
             return None
 
     def rel_3_2():
+        ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
+        orcl = cx_Oracle.connect(ORACLE_CONNECT)
+        print("Connected to Oracle: " + orcl.version)
+
         try:
             query = "SELECT SUM(VALOR_FRETE), EXTRACT(YEAR FROM DATA_VENDA) FROM VENDA WHERE TOTAL>2000 GROUP BY EXTRACT(YEAR FROM DATA_VENDA) ORDER BY 2"
             curs = orcl.cursor()
@@ -134,6 +146,10 @@ class connection():
             return None
 
     def rel_3_3():
+        ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
+        orcl = cx_Oracle.connect(ORACLE_CONNECT)
+        print("Connected to Oracle: " + orcl.version)
+        
         try:
             query = "SELECT SUM(VALOR_FRETE), EXTRACT(YEAR FROM DATA_VENDA) FROM VENDA WHERE TOTAL<=2000 GROUP BY EXTRACT(YEAR FROM DATA_VENDA) ORDER BY 2"
             curs = orcl.cursor()
