@@ -7,12 +7,13 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 
 class Ui_MainWindow(object):
     id_relatorio = 0
-    tipoUser = 1
+    tipoUser = 3
     user = ""
-
 
     # Determina o que cada tipo de usuário pode visualizar
     def checkPermissoes(self):
@@ -40,8 +41,15 @@ class Ui_MainWindow(object):
             self.menuSim.setEnabled(True)    #
 
         elif self.tipoUser == 3:
-            pass
             # Tem acesso a tudo
+            self.actionR1.setEnabled(True)
+            self.actionR2.setEnabled(True)
+            self.actionR3.setEnabled(True)
+            self.actionR4.setEnabled(True)
+            self.actionR5.setEnabled(True)   #
+            self.actionR6.setEnabled(True)   #
+            self.actionR7.setEnabled(True)
+            self.menuSim.setEnabled(True)
 
 
     # Define o que cada botão da interface executa
@@ -61,6 +69,28 @@ class Ui_MainWindow(object):
 
         self.lb_nomeuser.setText(self.user)
         self.lb_tipouser.setText(str(self.tipoUser))
+
+
+
+    # ################# OVERVIEW
+    def populaOverview(self):
+        self.pop_top15()
+
+    def pop_top15(self):
+        self.tabledata = [[1234567890,2,3,4,5],
+                          [6,7,8,9,10],
+                          [11,12,13,14,15],
+                          [16,17,18,19,20]]
+        header = ['col_0', 'col_1', 'col_2', 'col_3', 'col_4']
+        tablemodel = MyTableModel(self.tabledata, header, self)
+        self.tb_3.setModel(tablemodel)
+        vh = self.tb_3.verticalHeader()
+        vh.setVisible(False)
+        hh = self.tb_3.horizontalHeader()
+        hh.setStretchLastSection(True)
+        self.tb_3.resizeColumnsToContents()
+        self.tb_3.resizeRowsToContents()
+
 
 
     # ################# CLICK
@@ -104,16 +134,16 @@ class Ui_MainWindow(object):
         a=0
 
 
-    '''
-        self.actionS1.setText(_translate("MainWindow", "S1 - Produtos"))
-        self.actionS2.setText(_translate("MainWindow", "S2 - Subcategoria"))
-        self.actionS3.setText(_translate("MainWindow", "S3 - Venda"))
-    '''
-        
+
+    # Chama funções ao final da construçao da interface
+    def chamaFuncoes(self):
+        self.settriggers()
+        self.checkPermissoes()
+        self.populaOverview()
 
 
 
-
+    # ######### CONSTRUÇÃO DA INTERFACE
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -521,8 +551,7 @@ class Ui_MainWindow(object):
         MainWindow.setTabOrder(self.tb_6, self.in_7_data)
         MainWindow.setTabOrder(self.in_7_data, self.in_8_data)
 
-        self.settriggers()
-        self.checkPermissoes()
+        self.chamaFuncoes()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -580,3 +609,47 @@ class Ui_MainWindow(object):
         self.actionS3.setText(_translate("MainWindow", "S3 - Venda"))
         self.actionCr_ditos.setText(_translate("MainWindow", "Créditos"))
 
+
+class MyTableModel(QAbstractTableModel):
+    def __init__(self, datain, headerdata, parent=None):
+        """
+        Args:
+            datain: a list of lists\n
+            headerdata: a list of strings
+        """
+        QAbstractTableModel.__init__(self, None)
+        self.arraydata = datain
+        self.headerdata = headerdata
+
+    def rowCount(self, parent):
+        return len(self.arraydata)
+
+    def columnCount(self, parent):
+        if len(self.arraydata) > 0: 
+            return len(self.arraydata[0]) 
+        return 0
+
+    def data(self, index, role):
+        if not index.isValid():
+            return QVariant()
+        elif role != Qt.DisplayRole:
+            return QVariant()
+        return QVariant(self.arraydata[index.row()][index.column()])
+
+    def setData(self, index, value, role):
+        pass         # not sure what to put here
+
+    def headerData(self, col, orientation, role):
+        if orientation == Qt.Horizontal and role == Qt.DisplayRole:
+            return QVariant(self.headerdata[col])
+        return QVariant()
+
+    def sort(self, Ncol, order):
+        """
+        Sort table by given column number.
+        """
+        self.emit(SIGNAL("layoutAboutToBeChanged()"))
+        self.arraydata = sorted(self.arraydata, key=operator.itemgetter(Ncol))       
+        if order == Qt.DescendingOrder:
+            self.arraydata.reverse()
+        self.emit(SIGNAL("layoutChanged()"))

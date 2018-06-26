@@ -38,9 +38,12 @@ class Ui_Dialog(object):
             self.window = QtWidgets.QMainWindow()
             self.ui = Ui_MainWindow()
             self.ui.user = user
-            self.ui.tipoUser = tipoUser
+            # self.ui.tipoUser = tipoUser
             self.ui.setupUi(self.window)
             self.window.show()
+
+        elif tipoUser == 4:
+            print("User without system access")
 
         else:
             print("User not found")

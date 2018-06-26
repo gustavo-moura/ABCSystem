@@ -956,6 +956,16 @@
      </property>
     </widget>
    </widget>
+   <widget class="QWidget" name="widget_simulacao" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>680</y>
+      <width>701</width>
+      <height>381</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
