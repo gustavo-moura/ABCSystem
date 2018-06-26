@@ -55,6 +55,24 @@ class Ui_MainWindow(object):
 
 
     # Define o que cada botão da interface executa
+    def selClick(self):
+        op = self.id_relatorio
+
+        if op == 1:
+            self.click_actionR1()
+        elif op == 2:
+            self.click_actionR2()
+        elif op == 3:
+            self.click_actionR3()
+        elif op == 4:
+            self.click_actionR4()
+        elif op == 5:
+            self.click_actionR5()
+        elif op == 6:
+            self.click_actionR6()
+        elif op == 7:
+            self.click_actionR7()
+
     def settriggers(self):
         self.widget_relatorio.close()
 
@@ -69,8 +87,12 @@ class Ui_MainWindow(object):
         self.actionS2.triggered.connect(self.click_actionS2)
         self.actionS3.triggered.connect(self.click_actionS3)
 
+        self.pesquisar.clicked.connect(self.selClick)
+
         self.lb_nomeuser.setText(self.user)
         self.lb_tipouser.setText(str(self.tipoUser))
+
+        self.in_pesquisa.setText("2010")
 
 
 
@@ -189,7 +211,7 @@ class Ui_MainWindow(object):
 
     
     '''
-    # om filtro
+    # com filtro
     def click_actionR1(self, MainWindow, op):
         if op == 1:
             self.in_pesquisa.setText("2010")
@@ -251,7 +273,7 @@ class Ui_MainWindow(object):
 
 
     def click_actionR4(self, MainWindow):
-        tabledata = connection.rel_4()
+        tabledata = connection.rel_4(self.in_pesquisa.text())
         header = ['MÊS', 'TOTAL VENDIDO']
         self.criaRelatorio(4, "Informações das vendas anuais", tabledata, header)
 

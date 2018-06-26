@@ -232,7 +232,6 @@ class connection():
 
         try:
             query = "SELECT E.PAIS, SUM(SUBTOTAL) FROM VENDA V JOIN CLIENTE C ON C.ID_CLIENTE=V.ID_CLIENTE JOIN PESSOA P ON P.ID_PESSOA=C.ID_PESSOA JOIN ENDERECO E ON E.ID_ENDERECO=P.ID_ENDERECO WHERE PAIS=pais GROUP BY E.PAIS"
-"
             curs = orcl.cursor()
             curs.execute(query)
             
