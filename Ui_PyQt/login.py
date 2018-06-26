@@ -23,7 +23,7 @@ class Ui_Dialog(object):
     #Funcao utilizada para realizar a autenticacao do usuario no banco
     def login(self):
 
-        connection.connect()
+        #connection.connect()
     
         user = self.in_user.text()
         pwd = self.in_senha.text()

@@ -2,6 +2,7 @@ import os
 os.chdir("C:\\oraclexe\\instantclient_12_2")
 
 import cx_Oracle
+#from '.\\Ui_PyQt\\queries2.py" import connection
 
 ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
 
@@ -113,6 +114,7 @@ def rel_historicoDepartNomeD(nome):
 
 # test login successful
 #checkLogin("adventure-works\jianshuo0", "OHTnyBvL8Z29tVGOT1/XKjVzsJCf9XezJf5TScu1fa0")
+checkLogin("admin", "admin")
 
 # test login failure
 #checkLogin("uasdiusa", "zzzwe")
@@ -143,7 +145,7 @@ def rel_historicoDepartNomeD(nome):
 #    print(row)
 
 
-
+#conect.login()
 
 
 # closing connection

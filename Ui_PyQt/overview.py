@@ -353,7 +353,7 @@ class Ui_MainWindow(object):
         self.actionSair.setObjectName("actionSair")
         self.actionR1 = QtWidgets.QAction(MainWindow)
         self.actionR1.setObjectName("actionR1")
-        self.acrionR1.triggered.connect(self.clicked_actionR1)
+        self.actionR1.triggered.connect(self.click_actionR1)
         self.actionR2 = QtWidgets.QAction(MainWindow)
         self.actionR2.setObjectName("actionR2")
         self.actionR3 = QtWidgets.QAction(MainWindow)
