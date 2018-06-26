@@ -57,12 +57,14 @@ class connection():
             curs = orcl.cursor()
             curs.execute(query)
             rows = curs.fetchall()
-            print(rows)
+            #print(rows)
             orcl.close()
+            return rows
         except cx_Oracle.DatabaseError as e:
             print(e)
             orcl.close()
             print("Deu erro nos top 15")
+            return None
 
 
     def disconnect():
