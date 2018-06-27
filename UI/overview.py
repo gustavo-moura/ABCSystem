@@ -279,7 +279,7 @@ class Ui_MainWindow(object):
     def atualiza_4(self):
         data = self.in_4_data.text()
         tabledata = connection.atualiza_4(data[0]+data[1]+data[2]+data[3])
-        header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+        header = ['CLIENTE', 'TOTAL GASTO']
 
         tablemodel = MyTableModel(tabledata, header, self)
         self.tb_4.setModel(tablemodel)
@@ -293,7 +293,7 @@ class Ui_MainWindow(object):
     # Melhores clientes Ever
     def atualiza_5(self):
         tabledata = connection.atualiza_5()
-        header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+        header = ['CLIENTE', 'TOTAL GASTO']
 
         tablemodel = MyTableModel(tabledata, header, self)
         self.tb_5.setModel(tablemodel)
@@ -307,7 +307,7 @@ class Ui_MainWindow(object):
     # produtos acabando (estoque < 10)
     def atualiza_6(self):
         tabledata = connection.atualiza_6()
-        header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+        header = ['PRODUTO', 'QUANTIDADE']
 
         tablemodel = MyTableModel(tabledata, header, self)
         self.tb_6.setModel(tablemodel)
@@ -323,7 +323,7 @@ class Ui_MainWindow(object):
         data = self.in_7_data.text()
 
         tabledata = connection.atualiza_7(data[0]+data[1]+data[2]+data[3])
-        header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+        header = ['MÊS', 'TOTAL VENDIDO']
 
         tablemodel = MyTableModel(tabledata, header, self)
         self.tb_7.setModel(tablemodel)
@@ -340,7 +340,7 @@ class Ui_MainWindow(object):
         data2 = self.in_8_data_2.text()
 
         tabledata = connection.atualiza_8(data[0]+data[1]+data[2]+data[3], data2[0]+data2[1]+data2[2]+data2[3])
-        header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+        header = ['ANO', 'TOTAL VENDIDO']
 
         tablemodel = MyTableModel(tabledata, header, self)
         self.tb_8.setModel(tablemodel)
