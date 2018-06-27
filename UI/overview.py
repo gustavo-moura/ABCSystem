@@ -173,7 +173,7 @@ class Ui_MainWindow(object):
         self.widget_relatorio.show()
         self.widget_relatorio_normal.close()
         self.widget_relatorio_P3.show()
-        id_relatorio = 3
+        self.id_relatorio = 3
         self.lb_titulo.setText("Dados de frete")
         self.lb_consulta.setText("por ano (yyyy)")
 
