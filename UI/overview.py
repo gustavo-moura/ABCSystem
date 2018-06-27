@@ -252,7 +252,7 @@ class Ui_MainWindow(object):
     # top 3 funcionarios do mês e ano
     def atualiza_2(self):
         data = self.in_2_data.text()
-        array = connection.atualiza_2(data[3]+data[4], data[6]+data[7]+data[8]+data[9])
+        array = connection.atualiza_2(data[0]+data[1], data[3]+data[4]+data[5]+data[6])
 
         self.lb_2_a1.setText(str(array[0]))
         self.lb_2_a2.setText(str(array[1]))
@@ -278,7 +278,7 @@ class Ui_MainWindow(object):
     # Melhores clientes do ano
     def atualiza_4(self):
         data = self.in_2_data.text()
-        tabledata = connection.atualiza_4(data[6]+data[7]+data[8]+data[9])
+        tabledata = connection.atualiza_4(data[0]+data[1]+data[2]+data[3])
         header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
 
         tablemodel = MyTableModel(tabledata, header, self)
@@ -322,7 +322,7 @@ class Ui_MainWindow(object):
     def atualiza_7(self):
         data = self.in_2_data.text()
 
-        tabledata = connection.atualiza_7(data[3]+data[4], data[6]+data[7]+data[8]+data[9])
+        tabledata = connection.atualiza_7(data[0]+data[1], data[3]+data[4]+data[5]+data[6])
         header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
 
         tablemodel = MyTableModel(tabledata, header, self)
@@ -337,8 +337,8 @@ class Ui_MainWindow(object):
     # Total vendido por Ano
     def atualiza_8(self):
         data = self.in_2_data.text()
-        
-        tabledata = connection.atualiza_8(data[6]+data[7]+data[8]+data[9])
+
+        tabledata = connection.atualiza_8(data[0]+data[1]+data[2]+data[3])
         header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
 
         tablemodel = MyTableModel(tabledata, header, self)
