@@ -88,6 +88,9 @@ class Ui_MainWindow(object):
         self.actionS3.triggered.connect(self.click_actionS3)
         self.actionSair.triggered.connect(self.click_sair)
 
+        self.in_1_data.dateChanged.connect(self.atualiza_1)
+        self.in_2_data.dateChanged.connect(self.atualiza_2)
+
         self.pesquisar.clicked.connect(self.selClick)
 
         self.lb_nomeuser.setText(self.user)
@@ -98,7 +101,7 @@ class Ui_MainWindow(object):
 
 
 
-    # ################# CLICK
+    # ###################################################################### CLICK
 
     # Standard para criação de simulacao
     def criaSimulacao(self, id, titulo):
@@ -209,13 +212,13 @@ class Ui_MainWindow(object):
         self.criaRelatorio(7, "Vendas por país", tabledata, header)
 
     def click_actionS1(self, MainWindow):
-        a=0
+        pass
 
     def click_actionS2(self, MainWindow):
-        a=0
+        pass
 
     def click_actionS3(self, MainWindow):
-        a=0
+        pass
 
     def click_sair(self, MainWindow):
         self.widget_relatorio.close()
@@ -225,7 +228,7 @@ class Ui_MainWindow(object):
 
 
 
-    # ################# OVERVIEW
+    # ###################################################################### OVERVIEW
     def populaOverview(self):
         self.atualiza_1()
         self.atualiza_2()
@@ -238,7 +241,9 @@ class Ui_MainWindow(object):
 
     # total vendido no dia, mes e ano
     def atualiza_1(self):
-        array = connection.atualiza_2()
+        #to-do passar separado os parametros para pesquisa
+        data = self.in_1_data.text()
+        array = connection.atualiza_1(data[0]+data[1], data[3]+data[4], data[6]+data[7]+data[8]+data[9])
 
         self.lb_1_dia.setText(str(array[0]))
         self.lb_1_mes.setText(str(array[1]))
@@ -246,7 +251,8 @@ class Ui_MainWindow(object):
 
     # top 3 funcionarios do mês e ano
     def atualiza_2(self):
-        array = connection.atualiza_2()
+        data = self.in_2_data.text()
+        array = connection.atualiza_2(data[3]+data[4], data[6]+data[7]+data[8]+data[9])
 
         self.lb_2_a1.setText(str(array[0]))
         self.lb_2_a2.setText(str(array[1]))
@@ -257,8 +263,9 @@ class Ui_MainWindow(object):
 
     # top 15 produtos mais vendidos
     def atualiza_3(self):
-        tabledata = connection.top15products()
+        tabledata = connection.atualiza_3()
         header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+
         tablemodel = MyTableModel(tabledata, header, self)
         self.tb_3.setModel(tablemodel)
         vh = self.tb_3.verticalHeader()
@@ -270,8 +277,10 @@ class Ui_MainWindow(object):
 
     # Melhores clientes do ano
     def atualiza_4(self):
-        tabledata = connection.top15products()
+        data = self.in_2_data.text()
+        tabledata = connection.atualiza_4(data[6]+data[7]+data[8]+data[9])
         header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+
         tablemodel = MyTableModel(tabledata, header, self)
         self.tb_4.setModel(tablemodel)
         vh = self.tb_4.verticalHeader()
@@ -283,8 +292,9 @@ class Ui_MainWindow(object):
 
     # Melhores clientes Ever
     def atualiza_5(self):
-        tabledata = connection.top15products()
+        tabledata = connection.atualiza_5()
         header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+
         tablemodel = MyTableModel(tabledata, header, self)
         self.tb_5.setModel(tablemodel)
         vh = self.tb_5.verticalHeader()
@@ -296,8 +306,9 @@ class Ui_MainWindow(object):
 
     # produtos acabando (estoque < 10)
     def atualiza_6(self):
-        tabledata = connection.top15products()
+        tabledata = connection.atualiza_6()
         header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+
         tablemodel = MyTableModel(tabledata, header, self)
         self.tb_6.setModel(tablemodel)
         vh = self.tb_6.verticalHeader()
@@ -309,8 +320,11 @@ class Ui_MainWindow(object):
 
     # Total vendido por mês
     def atualiza_7(self):
-        tabledata = connection.top15products()
+        data = self.in_2_data.text()
+
+        tabledata = connection.atualiza_7(data[3]+data[4], data[6]+data[7]+data[8]+data[9])
         header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+
         tablemodel = MyTableModel(tabledata, header, self)
         self.tb_7.setModel(tablemodel)
         vh = self.tb_7.verticalHeader()
@@ -322,8 +336,11 @@ class Ui_MainWindow(object):
 
     # Total vendido por Ano
     def atualiza_8(self):
-        tabledata = connection.top15products()
+        data = self.in_2_data.text()
+        
+        tabledata = connection.atualiza_8(data[6]+data[7]+data[8]+data[9])
         header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+
         tablemodel = MyTableModel(tabledata, header, self)
         self.tb_8.setModel(tablemodel)
         vh = self.tb_8.verticalHeader()
@@ -333,13 +350,15 @@ class Ui_MainWindow(object):
         self.tb_8.resizeColumnsToContents()
         self.tb_8.resizeRowsToContents()
 
+    
+
+    # ###################################################################### CONSTRUÇÃO DA INTERFACE
+
     # Chama funções ao final da construçao da interface
     def chamaFuncoes(self):
         self.settriggers()
         self.checkPermissoes()
         self.populaOverview()
-
-    # ######### CONSTRUÇÃO DA INTERFACE
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")

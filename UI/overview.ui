@@ -939,7 +939,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>2010</string>
+      <string>Pesquisar</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pesquisar">
@@ -1120,7 +1120,13 @@
     <addaction name="actionR6"/>
     <addaction name="actionR7"/>
    </widget>
+   <widget class="QMenu" name="menuOverview">
+    <property name="title">
+     <string>Overview</string>
+    </property>
+   </widget>
    <addaction name="menuUser"/>
+   <addaction name="menuOverview"/>
    <addaction name="menuRel"/>
    <addaction name="menuSim"/>
   </widget>
@@ -1183,6 +1189,11 @@
   <action name="actionCr_ditos">
    <property name="text">
     <string>Créditos</string>
+   </property>
+  </action>
+  <action name="actionOverview">
+   <property name="text">
+    <string>Overview</string>
    </property>
   </action>
  </widget>
