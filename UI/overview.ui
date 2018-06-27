@@ -96,8 +96,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>830</y>
+      <x>160</x>
+      <y>880</y>
       <width>981</width>
       <height>491</height>
      </rect>
@@ -227,7 +227,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>900</y>
+      <y>950</y>
       <width>701</width>
       <height>381</height>
      </rect>
@@ -982,7 +982,7 @@
         <widget class="QLabel" name="label_16">
          <property name="geometry">
           <rect>
-           <x>250</x>
+           <x>270</x>
            <y>20</y>
            <width>111</width>
            <height>20</height>
@@ -1004,9 +1004,9 @@
         <widget class="QDateEdit" name="in_7_data">
          <property name="geometry">
           <rect>
-           <x>369</x>
+           <x>389</x>
            <y>20</y>
-           <width>81</width>
+           <width>61</width>
            <height>22</height>
           </rect>
          </property>
@@ -1026,7 +1026,7 @@
           </datetime>
          </property>
          <property name="displayFormat">
-          <string>MM/yyyy</string>
+          <string>yyyy</string>
          </property>
          <property name="calendarPopup">
           <bool>true</bool>
@@ -1067,10 +1067,104 @@
         <property name="title">
          <string>Total Vendido por Ano</string>
         </property>
-        <widget class="QDateEdit" name="in_8_data">
+        <widget class="QDateEdit" name="in_8_data_1">
          <property name="geometry">
           <rect>
-           <x>389</x>
+           <x>220</x>
+           <y>20</y>
+           <width>61</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="dateTime">
+          <datetime>
+           <hour>0</hour>
+           <minute>0</minute>
+           <second>0</second>
+           <year>2010</year>
+           <month>6</month>
+           <day>21</day>
+          </datetime>
+         </property>
+         <property name="currentSection">
+          <enum>QDateTimeEdit::YearSection</enum>
+         </property>
+         <property name="displayFormat">
+          <string>yyyy</string>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_15">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>20</y>
+           <width>111</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Century Gothic</family>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Selecione o período:</string>
+         </property>
+         <property name="buddy">
+          <cstring>in_8_data_1</cstring>
+         </property>
+        </widget>
+        <widget class="QTableView" name="tb_8">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>50</y>
+           <width>441</width>
+           <height>161</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Century Gothic</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_17">
+         <property name="geometry">
+          <rect>
+           <x>290</x>
+           <y>20</y>
+           <width>31</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Century Gothic</family>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>até</string>
+         </property>
+         <property name="buddy">
+          <cstring>in_8_data_1</cstring>
+         </property>
+        </widget>
+        <widget class="QDateEdit" name="in_8_data_2">
+         <property name="geometry">
+          <rect>
+           <x>330</x>
            <y>20</y>
            <width>61</width>
            <height>22</height>
@@ -1099,44 +1193,6 @@
          </property>
          <property name="calendarPopup">
           <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_15">
-         <property name="geometry">
-          <rect>
-           <x>270</x>
-           <y>20</y>
-           <width>111</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <family>Century Gothic</family>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Selecione o período:</string>
-         </property>
-         <property name="buddy">
-          <cstring>in_8_data</cstring>
-         </property>
-        </widget>
-        <widget class="QTableView" name="tb_8">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>50</y>
-           <width>441</width>
-           <height>161</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <family>Century Gothic</family>
-           <pointsize>10</pointsize>
-          </font>
          </property>
         </widget>
        </widget>
@@ -1268,7 +1324,7 @@
   <tabstop>tb_5</tabstop>
   <tabstop>tb_6</tabstop>
   <tabstop>in_7_data</tabstop>
-  <tabstop>in_8_data</tabstop>
+  <tabstop>in_8_data_1</tabstop>
  </tabstops>
  <resources/>
  <connections/>

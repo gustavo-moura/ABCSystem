@@ -86,7 +86,7 @@ class Ui_MainWindow(object):
         self.actionS1.triggered.connect(self.click_actionS1)
         self.actionS2.triggered.connect(self.click_actionS2)
         self.actionS3.triggered.connect(self.click_actionS3)
-        self.actionSair.triggered.connect(self.click_sair)
+        self.actionSair.triggered.connect(self.click_overview)
 
         self.in_1_data.dateChanged.connect(self.atualiza_1)
         self.in_2_data.dateChanged.connect(self.atualiza_2)
@@ -220,7 +220,7 @@ class Ui_MainWindow(object):
     def click_actionS3(self, MainWindow):
         pass
 
-    def click_sair(self, MainWindow):
+    def click_overview(self, MainWindow):
         self.widget_relatorio.close()
         self.widget_simulacao.close()
         self.widget.show()
@@ -277,7 +277,7 @@ class Ui_MainWindow(object):
 
     # Melhores clientes do ano
     def atualiza_4(self):
-        data = self.in_2_data.text()
+        data = self.in_4_data.text()
         tabledata = connection.atualiza_4(data[0]+data[1]+data[2]+data[3])
         header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
 
@@ -318,11 +318,11 @@ class Ui_MainWindow(object):
         self.tb_6.resizeColumnsToContents()
         self.tb_6.resizeRowsToContents()
 
-    # Total vendido por mês
+    # Total vendido por mês de um ano
     def atualiza_7(self):
-        data = self.in_2_data.text()
+        data = self.in_7_data.text()
 
-        tabledata = connection.atualiza_7(data[0]+data[1], data[3]+data[4]+data[5]+data[6])
+        tabledata = connection.atualiza_7(data[0]+data[1]+data[2]+data[3])
         header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
 
         tablemodel = MyTableModel(tabledata, header, self)
@@ -336,9 +336,10 @@ class Ui_MainWindow(object):
 
     # Total vendido por Ano
     def atualiza_8(self):
-        data = self.in_2_data.text()
+        data = self.in_8_data_1.text()
+        data2 = self.in_8_data_2.text()
 
-        tabledata = connection.atualiza_8(data[0]+data[1]+data[2]+data[3])
+        tabledata = connection.atualiza_8(data[0]+data[1]+data[2]+data[3], data2[0]+data2[1]+data2[2]+data2[3])
         header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
 
         tablemodel = MyTableModel(tabledata, header, self)
@@ -395,7 +396,7 @@ class Ui_MainWindow(object):
         self.lb_tipouser.setObjectName("lb_tipouser")
         self.widget_relatorio = QtWidgets.QWidget(self.centralwidget)
         self.widget_relatorio.setEnabled(True)
-        self.widget_relatorio.setGeometry(QtCore.QRect(130, 830, 981, 491))
+        self.widget_relatorio.setGeometry(QtCore.QRect(160, 880, 981, 491))
         self.widget_relatorio.setObjectName("widget_relatorio")
         self.in_pesquisa = QtWidgets.QLineEdit(self.widget_relatorio)
         self.in_pesquisa.setGeometry(QtCore.QRect(20, 50, 181, 20))
@@ -433,7 +434,7 @@ class Ui_MainWindow(object):
         self.tb_relatorio_P3_3.setSortingEnabled(False)
         self.tb_relatorio_P3_3.setObjectName("tb_relatorio_P3_3")
         self.widget_simulacao = QtWidgets.QWidget(self.centralwidget)
-        self.widget_simulacao.setGeometry(QtCore.QRect(20, 900, 701, 381))
+        self.widget_simulacao.setGeometry(QtCore.QRect(20, 950, 701, 381))
         self.widget_simulacao.setObjectName("widget_simulacao")
         self.lb_titulo_2 = QtWidgets.QLabel(self.widget_simulacao)
         self.lb_titulo_2.setGeometry(QtCore.QRect(10, 10, 681, 20))
@@ -707,14 +708,14 @@ class Ui_MainWindow(object):
         self.groupBox_7.setFont(font)
         self.groupBox_7.setObjectName("groupBox_7")
         self.label_16 = QtWidgets.QLabel(self.groupBox_7)
-        self.label_16.setGeometry(QtCore.QRect(250, 20, 111, 20))
+        self.label_16.setGeometry(QtCore.QRect(270, 20, 111, 20))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
         font.setPointSize(8)
         self.label_16.setFont(font)
         self.label_16.setObjectName("label_16")
         self.in_7_data = QtWidgets.QDateEdit(self.groupBox_7)
-        self.in_7_data.setGeometry(QtCore.QRect(369, 20, 81, 22))
+        self.in_7_data.setGeometry(QtCore.QRect(389, 20, 61, 22))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.in_7_data.setFont(font)
@@ -735,17 +736,17 @@ class Ui_MainWindow(object):
         font.setPointSize(11)
         self.groupBox_8.setFont(font)
         self.groupBox_8.setObjectName("groupBox_8")
-        self.in_8_data = QtWidgets.QDateEdit(self.groupBox_8)
-        self.in_8_data.setGeometry(QtCore.QRect(389, 20, 61, 22))
+        self.in_8_data_1 = QtWidgets.QDateEdit(self.groupBox_8)
+        self.in_8_data_1.setGeometry(QtCore.QRect(220, 20, 61, 22))
         font = QtGui.QFont()
         font.setPointSize(10)
-        self.in_8_data.setFont(font)
-        self.in_8_data.setDateTime(QtCore.QDateTime(QtCore.QDate(2018, 6, 21), QtCore.QTime(0, 0, 0)))
-        self.in_8_data.setCurrentSection(QtWidgets.QDateTimeEdit.YearSection)
-        self.in_8_data.setCalendarPopup(True)
-        self.in_8_data.setObjectName("in_8_data")
+        self.in_8_data_1.setFont(font)
+        self.in_8_data_1.setDateTime(QtCore.QDateTime(QtCore.QDate(2010, 6, 21), QtCore.QTime(0, 0, 0)))
+        self.in_8_data_1.setCurrentSection(QtWidgets.QDateTimeEdit.YearSection)
+        self.in_8_data_1.setCalendarPopup(True)
+        self.in_8_data_1.setObjectName("in_8_data_1")
         self.label_15 = QtWidgets.QLabel(self.groupBox_8)
-        self.label_15.setGeometry(QtCore.QRect(270, 20, 111, 20))
+        self.label_15.setGeometry(QtCore.QRect(100, 20, 111, 20))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
         font.setPointSize(8)
@@ -758,6 +759,22 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.tb_8.setFont(font)
         self.tb_8.setObjectName("tb_8")
+        self.label_17 = QtWidgets.QLabel(self.groupBox_8)
+        self.label_17.setGeometry(QtCore.QRect(290, 20, 31, 20))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(8)
+        self.label_17.setFont(font)
+        self.label_17.setObjectName("label_17")
+        self.in_8_data_2 = QtWidgets.QDateEdit(self.groupBox_8)
+        self.in_8_data_2.setGeometry(QtCore.QRect(330, 20, 61, 22))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.in_8_data_2.setFont(font)
+        self.in_8_data_2.setDateTime(QtCore.QDateTime(QtCore.QDate(2018, 6, 21), QtCore.QTime(0, 0, 0)))
+        self.in_8_data_2.setCurrentSection(QtWidgets.QDateTimeEdit.YearSection)
+        self.in_8_data_2.setCalendarPopup(True)
+        self.in_8_data_2.setObjectName("in_8_data_2")
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -824,7 +841,8 @@ class Ui_MainWindow(object):
         self.label_13.setBuddy(self.in_2_data)
         self.label_14.setBuddy(self.in_4_data)
         self.label_16.setBuddy(self.in_7_data)
-        self.label_15.setBuddy(self.in_8_data)
+        self.label_15.setBuddy(self.in_8_data_1)
+        self.label_17.setBuddy(self.in_8_data_1)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -835,7 +853,7 @@ class Ui_MainWindow(object):
         MainWindow.setTabOrder(self.tb_4, self.tb_5)
         MainWindow.setTabOrder(self.tb_5, self.tb_6)
         MainWindow.setTabOrder(self.tb_6, self.in_7_data)
-        MainWindow.setTabOrder(self.in_7_data, self.in_8_data)
+        MainWindow.setTabOrder(self.in_7_data, self.in_8_data_1)
 
         self.chamaFuncoes()
 
@@ -877,10 +895,12 @@ class Ui_MainWindow(object):
         self.groupBox_6.setTitle(_translate("MainWindow", "!!! Produtos acabando !!!"))
         self.groupBox_7.setTitle(_translate("MainWindow", "Total Vendido por Mês"))
         self.label_16.setText(_translate("MainWindow", "Selecione o período:"))
-        self.in_7_data.setDisplayFormat(_translate("MainWindow", "MM/yyyy"))
+        self.in_7_data.setDisplayFormat(_translate("MainWindow", "yyyy"))
         self.groupBox_8.setTitle(_translate("MainWindow", "Total Vendido por Ano"))
-        self.in_8_data.setDisplayFormat(_translate("MainWindow", "yyyy"))
+        self.in_8_data_1.setDisplayFormat(_translate("MainWindow", "yyyy"))
         self.label_15.setText(_translate("MainWindow", "Selecione o período:"))
+        self.label_17.setText(_translate("MainWindow", "até"))
+        self.in_8_data_2.setDisplayFormat(_translate("MainWindow", "yyyy"))
         self.menuUser.setTitle(_translate("MainWindow", "Usuário"))
         self.menuSim.setTitle(_translate("MainWindow", "Simulações"))
         self.menuRel.setTitle(_translate("MainWindow", "Relatórios"))
@@ -898,6 +918,7 @@ class Ui_MainWindow(object):
         self.actionS3.setText(_translate("MainWindow", "S3 - Venda"))
         self.actionCr_ditos.setText(_translate("MainWindow", "Créditos"))
         self.actionOverview.setText(_translate("MainWindow", "Overview"))
+
 
 
 class MyTableModel(QAbstractTableModel):
