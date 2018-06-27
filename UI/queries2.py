@@ -375,7 +375,7 @@ class connection():
         #print("Connected to Oracle: " + orcl.version)
 
         try:
-            query = "SELECT CLIENTE, VALOR FROM (SELECT V.ID_CLIENTE AS CLIENTE, SUM(SUBTOTAL) AS VALOR FROM VENDA V JOIN CLIENTE C ON V.ID_CLIENTE=C.ID_CLIENTE WHERE EXTRACT(YEAR FROM DATA_VENDA)=EXTRACT(YEAR FROM "+ano+") GROUP BY V.ID_CLIENTE ORDER BY 2 DESC) WHERE ROWNUM<=15"
+            query = "SELECT CLIENTE, VALOR FROM (SELECT V.ID_CLIENTE AS CLIENTE, SUM(SUBTOTAL) AS VALOR FROM VENDA V JOIN CLIENTE C ON V.ID_CLIENTE=C.ID_CLIENTE WHERE EXTRACT(YEAR FROM DATA_VENDA)="+ano+" GROUP BY V.ID_CLIENTE ORDER BY 2 DESC) WHERE ROWNUM<=15"
             curs = orcl.cursor()
             curs.execute(query)
 
@@ -426,6 +426,24 @@ class connection():
             orcl.close()
             return None
 
+    def atualiza_7(ano):
+        ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
+        orcl = cx_Oracle.connect(ORACLE_CONNECT)
+        #print("Connected to Oracle: " + orcl.version)
+
+        try:
+            query = "SELECT EXTRACT(MONTH FROM DATA_VENDA) AS MES, SUM(SUBTOTAL) VALOR FROM VENDA WHERE EXTRACT(YEAR FROM DATA_VENDA)="+ano+" GROUP BY EXTRACT(MONTH FROM DATA_VENDA) ORDER BY 1"
+            curs = orcl.cursor()
+            curs.execute(query)
+
+            rows = curs.fetchall()
+
+            orcl.close()
+            return rows
+        except cx_Oracle.DatabaseError as e:
+            print(e)
+            orcl.close()
+            return None
         
 
 
