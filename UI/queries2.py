@@ -293,13 +293,13 @@ class connection():
             orcl.close()
             return None
 
-    def atualiza_2():
+    def atualiza_2(mes, ano):
         ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
         orcl = cx_Oracle.connect(ORACLE_CONNECT)
         #print("Connected to Oracle: " + orcl.version)
 
         try:
-            query = "SELECT NOME, ID, VALOR FROM (SELECT P.NOME AS NOME, V.ID_VENDEDOR AS ID, SUM(SUBTOTAL) AS VALOR FROM VENDA V JOIN PESSOA P ON P.ID_PESSOA=V.ID_VENDEDOR WHERE EXTRACT(YEAR FROM V.DATA_VENDA)=EXTRACT(YEAR FROM SYSDATE) GROUP BY P.NOME, V.ID_VENDEDOR ORDER BY 3 DESC) WHERE ROWNUM<=3"
+            query = "SELECT NOME, ID, VALOR FROM (SELECT P.NOME AS NOME, V.ID_VENDEDOR AS ID, SUM(SUBTOTAL) AS VALOR FROM VENDA V JOIN PESSOA P ON P.ID_PESSOA=V.ID_VENDEDOR WHERE EXTRACT(YEAR FROM V.DATA_VENDA)="+ano+" GROUP BY P.NOME, V.ID_VENDEDOR ORDER BY 3 DESC) WHERE ROWNUM<=3"
             curs = orcl.cursor()
             curs.execute(query)
 
@@ -321,7 +321,7 @@ class connection():
             else:
                 result.append("- - -")
 
-            query = "SELECT NOME, ID, VALOR FROM (SELECT P.NOME AS NOME, V.ID_VENDEDOR AS ID, SUM(SUBTOTAL) AS VALOR FROM VENDA V JOIN PESSOA P ON P.ID_PESSOA=V.ID_VENDEDOR WHERE EXTRACT(YEAR FROM V.DATA_VENDA)=EXTRACT(MONTH FROM SYSDATE) GROUP BY P.NOME, V.ID_VENDEDOR ORDER BY 3 DESC) WHERE ROWNUM<=3"
+            query = "SELECT NOME, ID, VALOR FROM (SELECT P.NOME AS NOME, V.ID_VENDEDOR AS ID, SUM(SUBTOTAL) AS VALOR FROM VENDA V JOIN PESSOA P ON P.ID_PESSOA=V.ID_VENDEDOR WHERE EXTRACT(YEAR FROM V.DATA_VENDA)=variavel_ano AND EXTRACT(MONTH FROM V.DATA_VENDA)="+mes+" GROUP BY P.NOME, V.ID_VENDEDOR ORDER BY 3 DESC) WHERE ROWNUM<=3"
             curs = orcl.cursor()
             curs.execute(query)
             
@@ -349,6 +349,85 @@ class connection():
             print(e)
             orcl.close()
             return None
+    
+    def atualiza_3():
+        ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
+        orcl = cx_Oracle.connect(ORACLE_CONNECT)
+        #print("Connected to Oracle: " + orcl.version)
+
+        try:
+            query = "SELECT NOME, PRECO, PESO, CATEGORIA, QUANTIDADE FROM (SELECT P.NOME, P.PRECO, P.PESO, C.NOME CATEGORIA, SUM(QUANTIDADE) QUANTIDADE FROM VENDA V JOIN ITEMVENDA I ON V.ID_VENDA=I.ID_VENDA JOIN PRODUTO P ON P.ID_PRODUTO=I.ID_PRODUTO JOIN SUBCATEGORIA S ON P.ID_SUBCATEGORIA=S.ID_SUBCATEGORIA JOIN CATEGORIA C ON C.ID_CATEGORIA=S.ID_CATEGORIA WHERE V.DATA_VENDA<=sysdate AND V.DATA_VENDA>=add_months(sysdate,  -6) GROUP BY P.NOME, P.PRECO, P.PESO, C.NOME ORDER BY 5 DESC)"
+            curs = orcl.cursor()
+            curs.execute(query)
+
+            rows = curs.fetchall()
+
+            orcl.close()
+            return rows
+        except cx_Oracle.DatabaseError as e:
+            print(e)
+            orcl.close()
+            return None
+    
+    def atualiza_4(ano):
+        ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
+        orcl = cx_Oracle.connect(ORACLE_CONNECT)
+        #print("Connected to Oracle: " + orcl.version)
+
+        try:
+            query = "SELECT CLIENTE, VALOR FROM (SELECT V.ID_CLIENTE AS CLIENTE, SUM(SUBTOTAL) AS VALOR FROM VENDA V JOIN CLIENTE C ON V.ID_CLIENTE=C.ID_CLIENTE WHERE EXTRACT(YEAR FROM DATA_VENDA)=EXTRACT(YEAR FROM "+ano+") GROUP BY V.ID_CLIENTE ORDER BY 2 DESC) WHERE ROWNUM<=15"
+            curs = orcl.cursor()
+            curs.execute(query)
+
+            rows = curs.fetchall()
+
+            orcl.close()
+            return rows
+        except cx_Oracle.DatabaseError as e:
+            print(e)
+            orcl.close()
+            return None
+
+    def atualiza_5():
+        ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
+        orcl = cx_Oracle.connect(ORACLE_CONNECT)
+        #print("Connected to Oracle: " + orcl.version)
+
+        try:
+            query = "SELECT CLIENTE, VALOR FROM (SELECT V.ID_CLIENTE AS CLIENTE, SUM(SUBTOTAL) AS VALOR FROM VENDA V JOIN CLIENTE C ON V.ID_CLIENTE=C.ID_CLIENTE GROUP BY V.ID_CLIENTE ORDER BY 2 DESC) WHERE ROWNUM<=15"
+            curs = orcl.cursor()
+            curs.execute(query)
+
+            rows = curs.fetchall()
+
+            orcl.close()
+            return rows
+        except cx_Oracle.DatabaseError as e:
+            print(e)
+            orcl.close()
+            return None
+
+    def atualiza_6():
+        ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
+        orcl = cx_Oracle.connect(ORACLE_CONNECT)
+        #print("Connected to Oracle: " + orcl.version)
+
+        try:
+            query = "SELECT NOME, QUANTIDADE FROM PRODUTO WHERE QUANTIDADE<10 ORDER BY 2"
+            curs = orcl.cursor()
+            curs.execute(query)
+
+            rows = curs.fetchall()
+
+            orcl.close()
+            return rows
+        except cx_Oracle.DatabaseError as e:
+            print(e)
+            orcl.close()
+            return None
+
+        
+
 
 
 
