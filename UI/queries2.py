@@ -246,7 +246,7 @@ class connection():
             orcl.close()
             return None
 
-    def atualiza_1():
+    def atualiza_2():
         ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
         orcl = cx_Oracle.connect(ORACLE_CONNECT)
         print("Connected to Oracle: " + orcl.version)
@@ -256,7 +256,7 @@ class connection():
             curs = orcl.cursor()
             curs.execute(query)
 
-            rersult = []
+            result = []
 
             rows = curs.fetchone()
             result.append(rows[0])
