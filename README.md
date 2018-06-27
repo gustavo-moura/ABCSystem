@@ -17,3 +17,11 @@ The Database part, is the database practical course's final project and uses the
 The GUI is made by using the Kivy framework (https://kivy.org/)
 (recommended reading: https://kivy.org/docs/guide/basic.html),
 and designed with the help of Kivy Designer.	
+
+
+-----------------------
+Para executar:
+
+Entre na pasta "UI" e execute o comando "python app.py"
+
+É necessário ter instalado em seu computador o PyQt5 (utilize o comando "pip install PyQt5") e a biblioteca de conexão da Oracle para Python (cx_Oracle).
