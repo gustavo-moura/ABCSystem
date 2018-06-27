@@ -171,7 +171,7 @@ class connection():
         orcl = cx_Oracle.connect(ORACLE_CONNECT)
         print("Connected to Oracle: " + orcl.version)
 
-        if(ano==None):
+        if(ano=="Pesquisar"):
             ano = 2010
 
         try:
