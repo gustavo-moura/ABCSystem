@@ -445,7 +445,24 @@ class connection():
             orcl.close()
             return None
         
+    def atualiza_8(ano1, ano2):
+        ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
+        orcl = cx_Oracle.connect(ORACLE_CONNECT)
+        #print("Connected to Oracle: " + orcl.version)
 
+        try:
+            query = "SELECT EXTRACT(YEAR FROM DATA_VENDA) MES, SUM(SUBTOTAL) VALOR FROM VENDA WHERE EXTRACT(YEAR FROM DATA_VENDA)>="+ano1+" AND EXTRACT(YEAR FROM DATA_VENDA)<="+ano2+" GROUP BY EXTRACT(YEAR FROM DATA_VENDA) ORDER BY 1"
+            curs = orcl.cursor()
+            curs.execute(query)
+
+            rows = curs.fetchall()
+
+            orcl.close()
+            return rows
+        except cx_Oracle.DatabaseError as e:
+            print(e)
+            orcl.close()
+            return None
 
 
 
