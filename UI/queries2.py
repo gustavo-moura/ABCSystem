@@ -22,12 +22,14 @@ class connection():
         print("Connected to Oracle: " + orcl.version)
 
         try:
-            query = "SELECT E.login, P.senha, E.funcao, E.documento FROM Pessoa P JOIN Empregado E ON P.id_pessoa=E.id_pessoa where E.login='"+user+"' AND P.senha='"+pwd+"'"
+            #query = "SELECT E.login, P.senha, E.funcao, E.documento FROM Pessoa P JOIN Empregado E ON P.id_pessoa=E.id_pessoa where E.login='"+user+"' AND P.senha='"+pwd+"'"
+            query = "SELECT E.login, P.senha, E.documento, case funcao WHEN 'Production Supervisor - WC20' THEN 1 WHEN 'Shipping and Receiving Supervisor' THEN 1 WHEN 'Stocker' THEN 2 ELSE 3 end FROM Pessoa P JOIN Empregado E ON P.id_pessoa=E.id_pessoa where E.login='"+user+"' AND P.senha='"+user+"'"
             curs = orcl.cursor()
             curs.execute(query)
 
             row = curs.fetchone()
-            documento = row[3]
+            documento = row[2]
+            tipo = row[3]
 
             insert = "INSERT INTO LogAcesso VALUES ("+documento+", to_char(sysdate,'DD/MM/YYYY hh24:mm:ss'))"
             curs = orcl.cursor()
@@ -39,11 +41,11 @@ class connection():
 
             orcl.close()
             print("Logado com sucesso!")
-            return True
+            return tipo
         except:
             print("Login nao efetuado...")
             orcl.close()
-            return False
+            return -1
     
     # top 15 produtos
     def top15products():
@@ -243,6 +245,47 @@ class connection():
             print("Erro na query...")
             orcl.close()
             return None
+
+    def atualiza_1():
+        ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
+        orcl = cx_Oracle.connect(ORACLE_CONNECT)
+        print("Connected to Oracle: " + orcl.version)
+
+        try:
+            query = "SELECT NOME, ID, VALOR FROM (SELECT P.NOME AS NOME, V.ID_VENDEDOR AS ID, SUM(SUBTOTAL) AS VALOR FROM VENDA V JOIN PESSOA P ON P.ID_PESSOA=V.ID_VENDEDOR WHERE EXTRACT(YEAR FROM V.DATA_VENDA)=EXTRACT(YEAR FROM SYSDATE) GROUP BY P.NOME, V.ID_VENDEDOR ORDER BY 3 DESC) WHERE ROWNUM<=3"
+            curs = orcl.cursor()
+            curs.execute(query)
+
+            rersult = []
+
+            rows = curs.fetchone()
+            result.append(rows[0])
+            rows = curs.fetchone()
+            result.append(rows[0])
+            rows = curs.fetchone()
+            result.append(rows[0])
+
+            query = "SELECT NOME, ID, VALOR FROM (SELECT P.NOME AS NOME, V.ID_VENDEDOR AS ID, SUM(SUBTOTAL) AS VALOR FROM VENDA V JOIN PESSOA P ON P.ID_PESSOA=V.ID_VENDEDOR WHERE EXTRACT(YEAR FROM V.DATA_VENDA)=EXTRACT(MONTH FROM SYSDATE) GROUP BY P.NOME, V.ID_VENDEDOR ORDER BY 3 DESC) WHERE ROWNUM<=3"
+            curs = orcl.cursor()
+            curs.execute(query)
+            
+            rows = curs.fetchone()
+            result.append(rows[0])
+            rows = curs.fetchone()
+            result.append(rows[0])
+            rows = curs.fetchone()
+            result.append(rows[0])
+
+            print(result)
+
+            orcl.close()
+            return result
+        except:
+            except cx_Oracle.DatabaseError as e:
+            print(e)
+            orcl.close()
+            return None
+
 
 
     def disconnect():
