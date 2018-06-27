@@ -222,6 +222,28 @@
       </property>
      </widget>
     </widget>
+    <widget class="QLabel" name="lb_consulta">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>50</y>
+       <width>111</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Century Gothic</family>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>filtro</string>
+     </property>
+     <property name="buddy">
+      <cstring>in_1_data</cstring>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="widget_simulacao" native="true">
     <property name="geometry">

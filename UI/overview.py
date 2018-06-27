@@ -119,7 +119,7 @@ class Ui_MainWindow(object):
         self.lb_titulo.setText(titulo)
 
     # Standard para criação de relatório
-    def criaRelatorio(self, id, titulo, tabledata, header):
+    def criaRelatorio(self, id, titulo, consulta, tabledata, header):
         self.id_relatorio = id
 
         self.widget.close()
@@ -128,6 +128,7 @@ class Ui_MainWindow(object):
         self.widget_relatorio_P3.close()
 
         self.lb_titulo.setText(titulo)
+        self.lb_consulta.setText(consulta)
 
         # Criação da tabela de relatorio generica
         tablemodel = MyTableModel(tabledata, header, self)
@@ -140,23 +141,14 @@ class Ui_MainWindow(object):
         self.tb_relatorio.resizeRowsToContents()
 
     def click_actionR1(self, MainWindow):
-        tabledata = connection.rel_1()
-        header = ['NOME', 'E-MAIL', 'DATA DA VENDA', 'TIPO DE CARTÃO', 'NÚMERO DO CARTÃO', 'MÊS DA VALIDADE DO CARTÃO', 'ANO DA VALIDADE DO CARTÃO']
-        self.criaRelatorio(1, "Clientes com Cartões Vencidos", tabledata, header)
-
-
-    '''
-    # com filtro
-    def click_actionR1(self, MainWindow):
         tabledata = connection.rel_1(self.in_pesquisa.text())
         header = ['NOME', 'E-MAIL', 'DATA DA VENDA', 'TIPO DE CARTÃO', 'NÚMERO DO CARTÃO', 'MÊS DA VALIDADE DO CARTÃO', 'ANO DA VALIDADE DO CARTÃO']
-        self.criaRelatorio(1, "Clientes com Cartões Vencidos", tabledata, header)
-    '''
+        self.criaRelatorio(1, "Clientes com Cartões Vencidos", "por nome", tabledata, header)
 
     def click_actionR2(self, MainWindow):
-        tabledata = connection.rel_2()
+        tabledata = connection.rel_2(self.in_pesquisa.text())
         header = ['NOME', 'DEPARTAMENTO', 'TURNO', 'DATA DE ENTRADA', 'DATA DE SAÍDA']
-        self.criaRelatorio(2, "Histórico de Departamento de Funcionários", tabledata, header)
+        self.criaRelatorio(2, "Histórico de Departamento de Funcionários", "por nome", tabledata, header)
 
     def click_actionR3(self, MainWindow):
         self.widget.close()
@@ -165,8 +157,12 @@ class Ui_MainWindow(object):
         self.widget_relatorio_P3.show()
         id_relatorio = 3
         self.lb_titulo.setText("Dados de frete")
+        self.lb_consulta.setText("por ano (yyyy)")
 
-        tabledata1 = connection.rel_3_1()
+        ano = self.in_pesquisa.text()
+
+
+        tabledata1 = connection.rel_3_1(ano)
         header1 = ['SOMA TOTAL DOS FRETES', 'ANO']
         tablemodel1 = MyTableModel(tabledata1, header1, self)
         self.tb_relatorio_P3_1.setModel(tablemodel1)
@@ -177,7 +173,7 @@ class Ui_MainWindow(object):
         self.tb_relatorio_P3_1.resizeColumnsToContents()
         self.tb_relatorio_P3_1.resizeRowsToContents()
 
-        tabledata2 = connection.rel_3_2()
+        tabledata2 = connection.rel_3_2(ano)
         header2 = ['> 2000um', 'ANO']
         tablemodel2 = MyTableModel(tabledata2, header2, self)
         self.tb_relatorio_P3_2.setModel(tablemodel2)
@@ -188,7 +184,7 @@ class Ui_MainWindow(object):
         self.tb_relatorio_P3_2.resizeColumnsToContents()
         self.tb_relatorio_P3_2.resizeRowsToContents()
 
-        tabledata3 = connection.rel_3_3()
+        tabledata3 = connection.rel_3_3(ano)
         header3 = ['<= 2000um', 'ANO']
         tablemodel3 = MyTableModel(tabledata3, header3, self)
         self.tb_relatorio_P3_3.setModel(tablemodel3)
@@ -202,22 +198,22 @@ class Ui_MainWindow(object):
     def click_actionR4(self, MainWindow):
         tabledata = connection.rel_4(self.in_pesquisa.text())
         header = ['MÊS', 'TOTAL VENDIDO']
-        self.criaRelatorio(4, "Informações das vendas anuais", tabledata, header)
+        self.criaRelatorio(4, "Informações das vendas anuais", "por ano (yyyy)", tabledata, header)
 
     def click_actionR5(self, MainWindow):
-        tabledata = connection.rel_5()
+        tabledata = connection.rel_5(self.in_pesquisa.text())
         header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
-        self.criaRelatorio(5, "Top 15 produtos vendidos no semestre", tabledata, header)
+        self.criaRelatorio(5, "Top 15 produtos vendidos no semestre", "por data (DD/MM/yyyy)", tabledata, header)
 
     def click_actionR6(self, MainWindow):
-        tabledata = connection.rel_6()
+        tabledata = connection.rel_6(self.in_pesquisa.text())
         header = ['A-CATEGORIA', 'A-SUBCATEGORIA', 'A-PRODUTO', 'A-QUANTIDADE', 'B-CATEGORIA', 'B-SUBCATEGORIA', 'B-PRODUTO', 'B-QUANTIDADE', 'TOTAL DOS DOIS JUNTOS']
-        self.criaRelatorio(6, "Produtos de vendas casadas", tabledata, header)
+        self.criaRelatorio(6, "Produtos de vendas casadas", "por quantidade",  tabledata, header)
 
     def click_actionR7(self, MainWindow):
-        tabledata = connection.rel_7()
+        tabledata = connection.rel_7(self.in_pesquisa.text())
         header = ['TOTAL VENDIDO', 'PAÍS', ]
-        self.criaRelatorio(7, "Vendas por país", tabledata, header)
+        self.criaRelatorio(7, "Vendas por país", "por país", tabledata, header)
 
     def click_actionS1(self, MainWindow):
         pass
@@ -441,6 +437,13 @@ class Ui_MainWindow(object):
         self.tb_relatorio_P3_3.setGeometry(QtCore.QRect(570, 20, 261, 381))
         self.tb_relatorio_P3_3.setSortingEnabled(False)
         self.tb_relatorio_P3_3.setObjectName("tb_relatorio_P3_3")
+        self.lb_consulta = QtWidgets.QLabel(self.widget_relatorio)
+        self.lb_consulta.setGeometry(QtCore.QRect(290, 50, 111, 20))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(8)
+        self.lb_consulta.setFont(font)
+        self.lb_consulta.setObjectName("lb_consulta")
         self.widget_simulacao = QtWidgets.QWidget(self.centralwidget)
         self.widget_simulacao.setGeometry(QtCore.QRect(20, 950, 701, 381))
         self.widget_simulacao.setObjectName("widget_simulacao")
@@ -840,6 +843,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuRel.menuAction())
         self.menubar.addAction(self.menuSim.menuAction())
         self.lb_titulo.setBuddy(self.in_1_data)
+        self.lb_consulta.setBuddy(self.in_1_data)
         self.lb_titulo_2.setBuddy(self.in_1_data)
         self.label_6.setBuddy(self.in_1_data)
         self.label_13.setBuddy(self.in_2_data)
@@ -871,6 +875,7 @@ class Ui_MainWindow(object):
         self.in_pesquisa.setText(_translate("MainWindow", "Pesquisar"))
         self.pesquisar.setText(_translate("MainWindow", "Pesquisar"))
         self.lb_titulo.setText(_translate("MainWindow", "Relatório Bla bla bla"))
+        self.lb_consulta.setText(_translate("MainWindow", "filtro"))
         self.lb_titulo_2.setText(_translate("MainWindow", "Simulação Bla bla bla"))
         self.groupBox.setTitle(_translate("MainWindow", "Total Vendido"))
         self.label_2.setText(_translate("MainWindow", "Dia"))
@@ -923,6 +928,7 @@ class Ui_MainWindow(object):
         self.actionCr_ditos.setText(_translate("MainWindow", "Créditos"))
         self.actionOverview.setText(_translate("MainWindow", "Overview"))
         self.actionVisualizar.setText(_translate("MainWindow", "Visualizar"))
+
 
 
 
