@@ -53,7 +53,6 @@ class Ui_MainWindow(object):
             self.actionR7.setEnabled(True)
             self.menuSim.setEnabled(True)
 
-
     # Define o que cada botão da interface executa
     def selClick(self):
         op = self.id_relatorio
@@ -73,6 +72,7 @@ class Ui_MainWindow(object):
         elif op == 7:
             self.click_actionR7(self.pesquisar)
 
+    # Realiza a conexão entre os signals e slots da interface
     def settriggers(self):
         self.widget_relatorio.close()
 
@@ -86,6 +86,7 @@ class Ui_MainWindow(object):
         self.actionS1.triggered.connect(self.click_actionS1)
         self.actionS2.triggered.connect(self.click_actionS2)
         self.actionS3.triggered.connect(self.click_actionS3)
+        self.actionSair.triggered.connect(self.click_sair)
 
         self.pesquisar.clicked.connect(self.selClick)
 
@@ -94,6 +95,132 @@ class Ui_MainWindow(object):
 
         #preencher dado standard
         self.in_pesquisa.setText("Pesquisar")
+
+
+
+    # ################# CLICK
+
+    # Standard para criação de simulacao
+    def criaSimulacao(self, id, titulo):
+        self.widget.close()
+        self.widget_relatorio.show()
+        id_relatorio = id
+        self.lb_titulo.setText(titulo)
+
+    # Standard para criação de relatório
+    def criaRelatorio(self, id, titulo, tabledata, header):
+        self.id_relatorio = id
+
+        self.widget.close()
+        self.widget_relatorio.show()
+        self.widget_relatorio_normal.show()
+        self.widget_relatorio_P3.close()
+
+        self.lb_titulo.setText(titulo)
+
+        # Criação da tabela de relatorio generica
+        tablemodel = MyTableModel(tabledata, header, self)
+        self.tb_relatorio.setModel(tablemodel)
+        vh = self.tb_relatorio.verticalHeader()
+        vh.setVisible(False)
+        hh = self.tb_relatorio.horizontalHeader()
+        hh.setStretchLastSection(True)
+        self.tb_relatorio.resizeColumnsToContents()
+        self.tb_relatorio.resizeRowsToContents()
+
+    def click_actionR1(self, MainWindow):
+        tabledata = connection.rel_1()
+        header = ['NOME', 'E-MAIL', 'DATA DA VENDA', 'TIPO DE CARTÃO', 'NÚMERO DO CARTÃO', 'MÊS DA VALIDADE DO CARTÃO', 'ANO DA VALIDADE DO CARTÃO']
+        self.criaRelatorio(1, "Clientes com Cartões Vencidos", tabledata, header)
+
+
+    '''
+    # com filtro
+    def click_actionR1(self, MainWindow):
+        tabledata = connection.rel_1(self.in_pesquisa.text())
+        header = ['NOME', 'E-MAIL', 'DATA DA VENDA', 'TIPO DE CARTÃO', 'NÚMERO DO CARTÃO', 'MÊS DA VALIDADE DO CARTÃO', 'ANO DA VALIDADE DO CARTÃO']
+        self.criaRelatorio(1, "Clientes com Cartões Vencidos", tabledata, header)
+    '''
+
+    def click_actionR2(self, MainWindow):
+        tabledata = connection.rel_2()
+        header = ['NOME', 'DEPARTAMENTO', 'TURNO', 'DATA DE ENTRADA', 'DATA DE SAÍDA']
+        self.criaRelatorio(2, "Histórico de Departamento de Funcionários", tabledata, header)
+
+    def click_actionR3(self, MainWindow):
+        self.widget.close()
+        self.widget_relatorio.show()
+        self.widget_relatorio_normal.close()
+        self.widget_relatorio_P3.show()
+        id_relatorio = 3
+        self.lb_titulo.setText("Dados de frete")
+
+        tabledata1 = connection.rel_3_1()
+        header1 = ['SOMA TOTAL DOS FRETES', 'ANO']
+        tablemodel1 = MyTableModel(tabledata1, header1, self)
+        self.tb_relatorio_P3_1.setModel(tablemodel1)
+        vh1 = self.tb_relatorio_P3_1.verticalHeader()
+        vh1.setVisible(False)
+        hh1 = self.tb_relatorio_P3_1.horizontalHeader()
+        hh1.setStretchLastSection(True)
+        self.tb_relatorio_P3_1.resizeColumnsToContents()
+        self.tb_relatorio_P3_1.resizeRowsToContents()
+
+        tabledata2 = connection.rel_3_2()
+        header2 = ['> 2000um', 'ANO']
+        tablemodel2 = MyTableModel(tabledata2, header2, self)
+        self.tb_relatorio_P3_2.setModel(tablemodel2)
+        vh2 = self.tb_relatorio_P3_2.verticalHeader()
+        vh2.setVisible(False)
+        hh2 = self.tb_relatorio_P3_2.horizontalHeader()
+        hh2.setStretchLastSection(True)
+        self.tb_relatorio_P3_2.resizeColumnsToContents()
+        self.tb_relatorio_P3_2.resizeRowsToContents()
+
+        tabledata3 = connection.rel_3_3()
+        header3 = ['<= 2000um', 'ANO']
+        tablemodel3 = MyTableModel(tabledata3, header3, self)
+        self.tb_relatorio_P3_3.setModel(tablemodel3)
+        vh3 = self.tb_relatorio_P3_3.verticalHeader()
+        vh3.setVisible(False)
+        hh3 = self.tb_relatorio_P3_3.horizontalHeader()
+        hh3.setStretchLastSection(True)
+        self.tb_relatorio_P3_3.resizeColumnsToContents()
+        self.tb_relatorio_P3_3.resizeRowsToContents()
+
+    def click_actionR4(self, MainWindow):
+        tabledata = connection.rel_4(self.in_pesquisa.text())
+        header = ['MÊS', 'TOTAL VENDIDO']
+        self.criaRelatorio(4, "Informações das vendas anuais", tabledata, header)
+
+    def click_actionR5(self, MainWindow):
+        tabledata = connection.rel_5()
+        header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+        self.criaRelatorio(5, "Top 15 produtos vendidos no semestre", tabledata, header)
+
+    def click_actionR6(self, MainWindow):
+        tabledata = connection.rel_6()
+        header = ['A-CATEGORIA', 'A-SUBCATEGORIA', 'A-PRODUTO', 'A-QUANTIDADE', 'B-CATEGORIA', 'B-SUBCATEGORIA', 'B-PRODUTO', 'B-QUANTIDADE', 'TOTAL DOS DOIS JUNTOS']
+        self.criaRelatorio(6, "Produtos de vendas casadas", tabledata, header)
+
+    def click_actionR7(self, MainWindow):
+        tabledata = connection.rel_7()
+        header = ['TOTAL VENDIDO', 'PAÍS', ]
+        self.criaRelatorio(7, "Vendas por país", tabledata, header)
+
+    def click_actionS1(self, MainWindow):
+        a=0
+
+    def click_actionS2(self, MainWindow):
+        a=0
+
+    def click_actionS3(self, MainWindow):
+        a=0
+
+    def click_sair(self, MainWindow):
+        self.widget_relatorio.close()
+        self.widget_simulacao.close()
+        self.widget.show()
 
 
 
@@ -111,13 +238,11 @@ class Ui_MainWindow(object):
 
     # total vendido no dia, mes e ano
     def atualiza_1(self):
-        dia = 999
-        mes = 999
-        ano = 999
+        array = connection.atualiza_2()
 
-        self.lb_1_dia.setText(str(dia))
-        self.lb_1_mes.setText(str(mes))
-        self.lb_1_ano.setText(str(ano))
+        self.lb_1_dia.setText(str(array[0]))
+        self.lb_1_mes.setText(str(array[1]))
+        self.lb_1_ano.setText(str(array[2]))
 
     # top 3 funcionarios do mês e ano
     def atualiza_2(self):
@@ -208,139 +333,11 @@ class Ui_MainWindow(object):
         self.tb_8.resizeColumnsToContents()
         self.tb_8.resizeRowsToContents()
 
-    # ################# CLICK
-
-    # Standard para criação de simulacao
-    def criaSimulacao(self, id, titulo):
-        self.widget.close()
-        self.widget_relatorio.show()
-        id_relatorio = id
-        self.lb_titulo.setText(titulo)
-
-    # Standard para criação de relatório
-    def criaRelatorio(self, id, titulo, tabledata, header):
-        self.id_relatorio = id
-
-        self.widget.close()
-        self.widget_relatorio.show()
-        self.widget_relatorio_normal.show()
-        self.widget_relatorio_P3.close()
-
-        self.lb_titulo.setText(titulo)
-
-        # Criação da tabela de relatorio generica
-        tablemodel = MyTableModel(tabledata, header, self)
-        self.tb_relatorio.setModel(tablemodel)
-        vh = self.tb_relatorio.verticalHeader()
-        vh.setVisible(False)
-        hh = self.tb_relatorio.horizontalHeader()
-        hh.setStretchLastSection(True)
-        self.tb_relatorio.resizeColumnsToContents()
-        self.tb_relatorio.resizeRowsToContents()
-
-
-
-    def click_actionR1(self, MainWindow):
-        tabledata = connection.rel_1()
-        header = ['NOME', 'E-MAIL', 'DATA DA VENDA', 'TIPO DE CARTÃO', 'NÚMERO DO CARTÃO', 'MÊS DA VALIDADE DO CARTÃO', 'ANO DA VALIDADE DO CARTÃO']
-        self.criaRelatorio(1, "Clientes com Cartões Vencidos", tabledata, header)
-
-    
-    '''
-    # com filtro
-    def click_actionR1(self, MainWindow):
-        tabledata = connection.rel_1(self.in_pesquisa.text())
-        header = ['NOME', 'E-MAIL', 'DATA DA VENDA', 'TIPO DE CARTÃO', 'NÚMERO DO CARTÃO', 'MÊS DA VALIDADE DO CARTÃO', 'ANO DA VALIDADE DO CARTÃO']
-        self.criaRelatorio(1, "Clientes com Cartões Vencidos", tabledata, header)
-    '''
-
-    def click_actionR2(self, MainWindow):
-        tabledata = connection.rel_2()
-        header = ['NOME', 'DEPARTAMENTO', 'TURNO', 'DATA DE ENTRADA', 'DATA DE SAÍDA']
-        self.criaRelatorio(2, "Histórico de Departamento de Funcionários", tabledata, header)
-
-    def click_actionR3(self, MainWindow):
-        self.widget.close()
-        self.widget_relatorio.show()
-        self.widget_relatorio_normal.close()
-        self.widget_relatorio_P3.show()
-        id_relatorio = 3
-        self.lb_titulo.setText("Dados de frete")
-
-        tabledata1 = connection.rel_3_1()
-        header1 = ['SOMA TOTAL DOS FRETES', 'ANO']
-        tablemodel1 = MyTableModel(tabledata1, header1, self)
-        self.tb_relatorio_P3_1.setModel(tablemodel1)
-        vh1 = self.tb_relatorio_P3_1.verticalHeader()
-        vh1.setVisible(False)
-        hh1 = self.tb_relatorio_P3_1.horizontalHeader()
-        hh1.setStretchLastSection(True)
-        self.tb_relatorio_P3_1.resizeColumnsToContents()
-        self.tb_relatorio_P3_1.resizeRowsToContents()
-
-        tabledata2 = connection.rel_3_2()
-        header2 = ['> 2000um', 'ANO']
-        tablemodel2 = MyTableModel(tabledata2, header2, self)
-        self.tb_relatorio_P3_2.setModel(tablemodel2)
-        vh2 = self.tb_relatorio_P3_2.verticalHeader()
-        vh2.setVisible(False)
-        hh2 = self.tb_relatorio_P3_2.horizontalHeader()
-        hh2.setStretchLastSection(True)
-        self.tb_relatorio_P3_2.resizeColumnsToContents()
-        self.tb_relatorio_P3_2.resizeRowsToContents()
-
-        tabledata3 = connection.rel_3_3()
-        header3 = ['<= 2000um', 'ANO']
-        tablemodel3 = MyTableModel(tabledata3, header3, self)
-        self.tb_relatorio_P3_3.setModel(tablemodel3)
-        vh3 = self.tb_relatorio_P3_3.verticalHeader()
-        vh3.setVisible(False)
-        hh3 = self.tb_relatorio_P3_3.horizontalHeader()
-        hh3.setStretchLastSection(True)
-        self.tb_relatorio_P3_3.resizeColumnsToContents()
-        self.tb_relatorio_P3_3.resizeRowsToContents()
-
-
-
-
-    def click_actionR4(self, MainWindow):
-        tabledata = connection.rel_4(self.in_pesquisa.text())
-        header = ['MÊS', 'TOTAL VENDIDO']
-        self.criaRelatorio(4, "Informações das vendas anuais", tabledata, header)
-
-    def click_actionR5(self, MainWindow):
-        tabledata = connection.rel_5()
-        header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
-        self.criaRelatorio(5, "Top 15 produtos vendidos no semestre", tabledata, header)
-
-    def click_actionR6(self, MainWindow):
-        tabledata = connection.rel_6()
-        header = ['A-CATEGORIA', 'A-SUBCATEGORIA', 'A-PRODUTO', 'A-QUANTIDADE', 'B-CATEGORIA', 'B-SUBCATEGORIA', 'B-PRODUTO', 'B-QUANTIDADE', 'TOTAL DOS DOIS JUNTOS']
-        self.criaRelatorio(6, "Produtos de vendas casadas", tabledata, header)
-
-    def click_actionR7(self, MainWindow):
-        tabledata = connection.rel_7()
-        header = ['TOTAL VENDIDO', 'PAÍS', ]
-        self.criaRelatorio(7, "Vendas por país", tabledata, header)
-
-    def click_actionS1(self, MainWindow):
-        a=0
-
-    def click_actionS2(self, MainWindow):
-        a=0
-
-    def click_actionS3(self, MainWindow):
-        a=0
-
-
-
     # Chama funções ao final da construçao da interface
     def chamaFuncoes(self):
         self.settriggers()
         self.checkPermissoes()
         self.populaOverview()
-
-
 
     # ######### CONSTRUÇÃO DA INTERFACE
 
