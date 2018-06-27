@@ -938,6 +938,9 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="text">
+      <string>2010</string>
+     </property>
     </widget>
     <widget class="QPushButton" name="pesquisar">
      <property name="geometry">

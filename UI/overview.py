@@ -58,20 +58,23 @@ class Ui_MainWindow(object):
     def selClick(self):
         op = self.id_relatorio
 
+
+        print("chamou, op=", op)
+
         if op == 1:
-            self.click_actionR1()
+            self.click_actionR1(self.pesquisar)
         elif op == 2:
-            self.click_actionR2()
+            self.click_actionR2(self.pesquisar)
         elif op == 3:
-            self.click_actionR3()
+            self.click_actionR3(self.pesquisar)
         elif op == 4:
-            self.click_actionR4()
+            self.click_actionR4(self.pesquisar)
         elif op == 5:
-            self.click_actionR5()
+            self.click_actionR5(self.pesquisar)
         elif op == 6:
-            self.click_actionR6()
+            self.click_actionR6(self.pesquisar)
         elif op == 7:
-            self.click_actionR7()
+            self.click_actionR7(self.pesquisar)
 
     def settriggers(self):
         self.widget_relatorio.close()
@@ -119,19 +122,15 @@ class Ui_MainWindow(object):
 
     # top 3 funcionarios do mês e ano
     def atualiza_2(self):
-        m1 = "JA"
-        m2 = "JE"
-        m3 = "JI"
-        a1 = "BA"
-        a2 = "BE"
-        a3 = "BI"
+        '''array = connection.atualiza_2()
 
-        self.lb_2_m1.setText(str(m1))
-        self.lb_2_m2.setText(str(m2))
-        self.lb_2_m3.setText(str(m3))
-        self.lb_2_a1.setText(str(a1))
-        self.lb_2_a2.setText(str(a2))
-        self.lb_2_a3.setText(str(a3))
+        self.lb_2_m1.setText(str(array[0]))
+        self.lb_2_m2.setText(str(array[1]))
+        self.lb_2_m3.setText(str(array[2]))
+        self.lb_2_a1.setText(str(array[3]))
+        self.lb_2_a2.setText(str(array[4]))
+        self.lb_2_a3.setText(str(array[5]))'''
+        pass
 
     # top 15 produtos mais vendidos
     def atualiza_3(self):
@@ -161,19 +160,55 @@ class Ui_MainWindow(object):
 
     # Melhores clientes Ever
     def atualiza_5(self):
-        a=0
+        tabledata = connection.top15products()
+        header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+        tablemodel = MyTableModel(tabledata, header, self)
+        self.tb_5.setModel(tablemodel)
+        vh = self.tb_5.verticalHeader()
+        vh.setVisible(False)
+        hh = self.tb_5.horizontalHeader()
+        hh.setStretchLastSection(True)
+        self.tb_5.resizeColumnsToContents()
+        self.tb_5.resizeRowsToContents()
 
     # produtos acabando (estoque < 10)
     def atualiza_6(self):
-        a=0
+        tabledata = connection.top15products()
+        header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+        tablemodel = MyTableModel(tabledata, header, self)
+        self.tb_6.setModel(tablemodel)
+        vh = self.tb_6.verticalHeader()
+        vh.setVisible(False)
+        hh = self.tb_6.horizontalHeader()
+        hh.setStretchLastSection(True)
+        self.tb_6.resizeColumnsToContents()
+        self.tb_6.resizeRowsToContents()
 
     # Total vendido por mês
     def atualiza_7(self):
-        a=0
+        tabledata = connection.top15products()
+        header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+        tablemodel = MyTableModel(tabledata, header, self)
+        self.tb_7.setModel(tablemodel)
+        vh = self.tb_7.verticalHeader()
+        vh.setVisible(False)
+        hh = self.tb_7.horizontalHeader()
+        hh.setStretchLastSection(True)
+        self.tb_7.resizeColumnsToContents()
+        self.tb_7.resizeRowsToContents()
 
     # Total vendido por Ano
     def atualiza_8(self):
-        a=0
+        tabledata = connection.top15products()
+        header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
+        tablemodel = MyTableModel(tabledata, header, self)
+        self.tb_8.setModel(tablemodel)
+        vh = self.tb_8.verticalHeader()
+        vh.setVisible(False)
+        hh = self.tb_8.horizontalHeader()
+        hh.setStretchLastSection(True)
+        self.tb_8.resizeColumnsToContents()
+        self.tb_8.resizeRowsToContents()
 
     # ################# CLICK
 
@@ -186,11 +221,13 @@ class Ui_MainWindow(object):
 
     # Standard para criação de relatório
     def criaRelatorio(self, id, titulo, tabledata, header):
+        self.id_relatorio = id
+
         self.widget.close()
         self.widget_relatorio.show()
         self.widget_relatorio_normal.show()
         self.widget_relatorio_P3.close()
-        id_relatorio = id
+
         self.lb_titulo.setText(titulo)
 
         # Criação da tabela de relatorio generica
@@ -212,13 +249,8 @@ class Ui_MainWindow(object):
     
     '''
     # com filtro
-    def click_actionR1(self, MainWindow, op):
-        if op == 1:
-            self.in_pesquisa.setText("2010")
-
-        std = self.in_pesquisa.text()
-        
-        tabledata = connection.rel_1(std)
+    def click_actionR1(self, MainWindow):
+        tabledata = connection.rel_1(self.in_pesquisa.text())
         header = ['NOME', 'E-MAIL', 'DATA DA VENDA', 'TIPO DE CARTÃO', 'NÚMERO DO CARTÃO', 'MÊS DA VALIDADE DO CARTÃO', 'ANO DA VALIDADE DO CARTÃO']
         self.criaRelatorio(1, "Clientes com Cartões Vencidos", tabledata, header)
     '''
@@ -237,7 +269,7 @@ class Ui_MainWindow(object):
         self.lb_titulo.setText("Dados de frete")
 
         tabledata1 = connection.rel_3_1()
-        header1 = ['SOMA TOTAL DOS FRETES', 'ANO', '> 2000um', '<= 2000um']
+        header1 = ['SOMA TOTAL DOS FRETES', 'ANO']
         tablemodel1 = MyTableModel(tabledata1, header1, self)
         self.tb_relatorio_P3_1.setModel(tablemodel1)
         vh1 = self.tb_relatorio_P3_1.verticalHeader()
@@ -248,9 +280,9 @@ class Ui_MainWindow(object):
         self.tb_relatorio_P3_1.resizeRowsToContents()
 
         tabledata2 = connection.rel_3_2()
-        header2 = ['SOMA TOTAL DOS FRETES', 'ANO', '> 2000um', '<= 2000um']
-        tablemodel1 = MyTableModel(tabledata2, header2, self)
-        self.tb_relatorio_P3_2.setModel(tablemodel1)
+        header2 = ['> 2000um', 'ANO']
+        tablemodel2 = MyTableModel(tabledata2, header2, self)
+        self.tb_relatorio_P3_2.setModel(tablemodel2)
         vh2 = self.tb_relatorio_P3_2.verticalHeader()
         vh2.setVisible(False)
         hh2 = self.tb_relatorio_P3_2.horizontalHeader()
@@ -259,7 +291,7 @@ class Ui_MainWindow(object):
         self.tb_relatorio_P3_2.resizeRowsToContents()
 
         tabledata3 = connection.rel_3_3()
-        header3 = ['SOMA TOTAL DOS FRETES', 'ANO', '> 2000um', '<= 2000um']
+        header3 = ['<= 2000um', 'ANO']
         tablemodel3 = MyTableModel(tabledata3, header3, self)
         self.tb_relatorio_P3_3.setModel(tablemodel3)
         vh3 = self.tb_relatorio_P3_3.verticalHeader()
