@@ -58,9 +58,6 @@ class Ui_MainWindow(object):
     def selClick(self):
         op = self.id_relatorio
 
-
-        print("chamou, op=", op)
-
         if op == 1:
             self.click_actionR1(self.pesquisar)
         elif op == 2:
@@ -95,7 +92,9 @@ class Ui_MainWindow(object):
         self.lb_nomeuser.setText(self.user)
         self.lb_tipouser.setText(str(self.tipoUser))
 
-        self.in_pesquisa.setText("2010")
+        #preencher dado standard
+        self.in_pesquisa.setText("Pesquisar")
+
 
 
 
@@ -122,15 +121,14 @@ class Ui_MainWindow(object):
 
     # top 3 funcionarios do mês e ano
     def atualiza_2(self):
-        '''array = connection.atualiza_2()
+        array = connection.atualiza_2()
 
-        self.lb_2_m1.setText(str(array[0]))
-        self.lb_2_m2.setText(str(array[1]))
-        self.lb_2_m3.setText(str(array[2]))
-        self.lb_2_a1.setText(str(array[3]))
-        self.lb_2_a2.setText(str(array[4]))
-        self.lb_2_a3.setText(str(array[5]))'''
-        pass
+        self.lb_2_a1.setText(str(array[0]))
+        self.lb_2_a2.setText(str(array[1]))
+        self.lb_2_a3.setText(str(array[2]))
+        self.lb_2_m1.setText(str(array[3]))
+        self.lb_2_m2.setText(str(array[4]))
+        self.lb_2_m3.setText(str(array[5]))
 
     # top 15 produtos mais vendidos
     def atualiza_3(self):
@@ -239,6 +237,7 @@ class Ui_MainWindow(object):
         hh.setStretchLastSection(True)
         self.tb_relatorio.resizeColumnsToContents()
         self.tb_relatorio.resizeRowsToContents()
+
 
 
     def click_actionR1(self, MainWindow):
