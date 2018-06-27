@@ -175,7 +175,7 @@ class connection():
             ano = "2010"
 
         try:
-            query = "SELECT SUM(subtotal), EXTRACT(MONTH FROM data_venda) FROM Venda WHERE EXTRACT(YEAR FROM data_venda)="+ano+"GROUP BY EXTRACT(MONTH FROM data_venda)ORDER BY 2"
+            query = "SELECT EXTRACT(MONTH FROM data_venda), SUM(subtotal) FROM Venda WHERE EXTRACT(YEAR FROM data_venda)="+ano+"GROUP BY EXTRACT(MONTH FROM data_venda)ORDER BY 1"
             curs = orcl.cursor()
             curs.execute(query)
             
@@ -246,17 +246,48 @@ class connection():
             orcl.close()
             return None
 
-    def atualiza_1():
+    def atualiza_1(dia, mes, ano):
         ORACLE_CONNECT = "a9762942/a9762942@(DESCRIPTION=(SOURCE_ROUTE=OFF)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=grad.icmc.usp.br)(PORT=15215)))(CONNECT_DATA=(SID=orcl)(SRVR=DEDICATED)))"
         orcl = cx_Oracle.connect(ORACLE_CONNECT)
         #print("Connected to Oracle: " + orcl.version)
 
+        data = []
+
         try:
-            query = "SELECT NOME, ID, VALOR FROM (SELECT P.NOME AS NOME, V.ID_VENDEDOR AS ID, SUM(SUBTOTAL) AS VALOR FROM VENDA V JOIN PESSOA P ON P.ID_PESSOA=V.ID_VENDEDOR WHERE EXTRACT(YEAR FROM V.DATA_VENDA)=EXTRACT(YEAR FROM SYSDATE) GROUP BY P.NOME, V.ID_VENDEDOR ORDER BY 3 DESC) WHERE ROWNUM<=3"
+            query = "SELECT SUM(SUBTOTAL) AS ANO FROM VENDA WHERE EXTRACT(DAY FROM DATA_VENDA)="+dia
             curs = orcl.cursor()
             curs.execute(query)
 
+            row = curs.fetchone()
+            if (row != None):
+                data.append(row[0])
+            else:
+                data.append("--")
 
+            
+            query = "SELECT SUM(SUBTOTAL) AS ANO FROM VENDA WHERE EXTRACT(MONTH FROM DATA_VENDA)="+mes
+            curs = orcl.cursor()
+            curs.execute(query)
+
+            row = curs.fetchone()
+            if (row != None):
+                data.append(row[0])
+            else:
+                data.append("--")
+            
+
+            query = "SELECT SUM(SUBTOTAL) AS ANO FROM VENDA WHERE EXTRACT(YEAR FROM DATA_VENDA)="+ano
+            curs = orcl.cursor()
+            curs.execute(query)
+
+            row = curs.fetchone()
+            if (row != None):
+                data.append(row[0])
+            else:
+                data.append("----")
+            
+            orcl.close()
+            return data
         except cx_Oracle.DatabaseError as e:
             print(e)
             orcl.close()
