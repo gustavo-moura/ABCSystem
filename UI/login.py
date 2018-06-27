@@ -10,21 +10,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from overview import Ui_MainWindow
 from queries2 import connection
 
-#funcao para verificar se usuario e senha correspondem
-def autentica(username, password):
-    if username==password:
-        return True
-    else:
-        return False
-
 
 class Ui_Dialog(object):
 
     #Funcao utilizada para realizar a autenticacao do usuario no banco
     def login(self):
 
-        #connection.connect()
-    
         user = self.in_user.text()
         pwd = self.in_senha.text()
 
@@ -38,7 +29,7 @@ class Ui_Dialog(object):
             self.window = QtWidgets.QMainWindow()
             self.ui = Ui_MainWindow()
             self.ui.user = user
-            # self.ui.tipoUser = tipoUser
+            self.ui.tipoUser = tipoUser
             self.ui.setupUi(self.window)
             self.window.show()
 
