@@ -280,8 +280,7 @@ class connection():
 
             orcl.close()
             return result
-        except:
-            except cx_Oracle.DatabaseError as e:
+        except cx_Oracle.DatabaseError as e:
             print(e)
             orcl.close()
             return None
