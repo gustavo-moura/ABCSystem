@@ -123,12 +123,23 @@ class Ui_MainWindow(object):
     def atualiza_2(self):
         array = connection.atualiza_2()
 
-        self.lb_2_a1.setText(str(array[0]))
-        self.lb_2_a2.setText(str(array[1]))
-        self.lb_2_a3.setText(str(array[2]))
-        self.lb_2_m1.setText(str(array[3]))
-        self.lb_2_m2.setText(str(array[4]))
-        self.lb_2_m3.setText(str(array[5]))
+        if(str(array[0]) != None):
+            self.lb_2_a1.setText(str(array[0]))
+
+        if(str(array[1]) != None):
+            self.lb_2_a2.setText(str(array[1]))
+
+        if(str(array[2]) != None):
+            self.lb_2_a3.setText(str(array[2]))
+
+        if(str(array[3]) != None):
+            self.lb_2_m1.setText(str(array[3]))
+        
+        if(str(array[4]) != None):
+            self.lb_2_m2.setText(str(array[4]))
+        
+        if(str(array[5]) != None):
+            self.lb_2_m3.setText(str(array[5]))
 
     # top 15 produtos mais vendidos
     def atualiza_3(self):
