@@ -259,22 +259,28 @@ class connection():
             result = []
 
             rows = curs.fetchone()
-            result.append(rows[0])
+            if (rows != None):
+                result.append(rows[0])
             rows = curs.fetchone()
-            result.append(rows[0])
+            if (rows != None):
+                result.append(rows[0])
             rows = curs.fetchone()
-            result.append(rows[0])
+            if (rows != None):
+                result.append(rows[0])
 
             query = "SELECT NOME, ID, VALOR FROM (SELECT P.NOME AS NOME, V.ID_VENDEDOR AS ID, SUM(SUBTOTAL) AS VALOR FROM VENDA V JOIN PESSOA P ON P.ID_PESSOA=V.ID_VENDEDOR WHERE EXTRACT(YEAR FROM V.DATA_VENDA)=EXTRACT(MONTH FROM SYSDATE) GROUP BY P.NOME, V.ID_VENDEDOR ORDER BY 3 DESC) WHERE ROWNUM<=3"
             curs = orcl.cursor()
             curs.execute(query)
             
             rows = curs.fetchone()
-            result.append(rows[0])
+            if (rows != None):
+                result.append(rows[0])
             rows = curs.fetchone()
-            result.append(rows[0])
+            if (rows != None):
+                result.append(rows[0])
             rows = curs.fetchone()
-            result.append(rows[0])
+            if (rows != None):
+                result.append(rows[0])
 
             print(result)
 
