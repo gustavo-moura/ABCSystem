@@ -12,6 +12,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import QMessageBox
 
 from queries2 import connection
+from simulations import focus
 
 class Ui_MainWindow(object):
     id_relatorio = 0
@@ -78,8 +79,9 @@ class Ui_MainWindow(object):
 
     # Realiza a conexão entre os signals e slots da interface
     def settriggers(self):
-        exibe_overview()
+        self.exibe_overview()
 
+        # action bar
         self.actionR1.triggered.connect(self.click_actionR1)
         self.actionR2.triggered.connect(self.click_actionR2)
         self.actionR3.triggered.connect(self.click_actionR3)
@@ -92,10 +94,11 @@ class Ui_MainWindow(object):
         self.actionS2.triggered.connect(self.click_actionS2)
         self.actionS3.triggered.connect(self.click_actionS3)
 
-        self.S1_alterar_valor.clicked.connect(self.click_S1_alterar_valor)
-
         self.actionVisualizar.triggered.connect(self.click_overview)
 
+        self.actionCr_ditos.triggered.connect(self.click_creditos)
+
+        # overview
         self.in_1_data.dateChanged.connect(self.atualiza_1)
         self.in_2_data.dateChanged.connect(self.atualiza_2)
         self.in_4_data.dateChanged.connect(self.atualiza_4)
@@ -104,12 +107,24 @@ class Ui_MainWindow(object):
         self.in_8_data_2.dateChanged.connect(self.atualiza_8)
 
 
+        # ui botões
         self.pesquisar.clicked.connect(self.selClick)
 
+        self.S1_alterar_valor.clicked.connect(self.click_S1_alterar_valor)
+        self.S1_alterar_quantidade.clicked.connect(self.click_S1_alterar_quantidade)
+        self.S2_alterar.clicked.connect(self.click_S2_alterar)
+        self.S3_alterar_1.clicked.connect(self.click_S3_alterar_1)
+        self.S3_alterar_2.clicked.connect(self.click_S3_alterar_2)
+        self.S3_alterar_3.clicked.connect(self.click_S3_alterar_3)
+        self.S3_alterar__4.clicked.connect(self.click_S3_alterar_4)
+        self.S3_alterar_5.clicked.connect(self.click_S3_alterar_5)
+
+
+        # std
         self.lb_nomeuser.setText(self.user)
         self.lb_tipouser.setText(str(self.tipoUser))
 
-        #preencher dado standard
+        # preencher dado standard
         self.in_pesquisa.setText("Pesquisar")
 
 
@@ -124,6 +139,9 @@ class Ui_MainWindow(object):
         self.widget_relatorio.show()
         self.widget_relatorio_normal.show()
         self.widget_relatorio_P3.close()
+        self.widget_S1.close()
+        self.widget_S2.close()
+        self.widget_S3.close()
 
         self.lb_titulo.setText(titulo)
         self.lb_consulta.setText(consulta)
@@ -216,51 +234,97 @@ class Ui_MainWindow(object):
         self.criaRelatorio(7, "Vendas por país", "por país", tabledata, header)
 
 
-    # botao de ação de simulação
+    # abrir janela de simulação 1
     def click_actionS1(self, MainWindow):
-        self.widgetS1.show()
+        self.widget_S1.show()
 
-        self.widgetS2.close()
-        self.widgetS3.close()
+        self.widget_S2.close()
+        self.widget_S3.close()
         self.widget.close()
         self.widget_relatorio.close()
 
-    def click_S1_alterar_valor(self):
-        if(S1_valor(self.in_S1_idproduto.text(), self.in_S1_novovalor.text())):
-            QMessageBox.about(self, "Simulação", "Dados alterados com sucesso!")
+    def click_S1_alterar_valor(self, MainWindow):
+        if(focus.s1_valor(self.in_S1_idproduto.text(), self.in_S1_novovalor.text())):
+            QMessageBox.about(self.centralwidget, "Simulação", "Dados alterados com sucesso!")
         else:
-            QMessageBox.about(self, "Simulação", "Dados não alterados.")
+            QMessageBox.about(self.centralwidget, "Simulação", "Dados não alterados.")
 
+    def click_S1_alterar_quantidade(self, MainWindow):
+        if(focus.s1_quantidade(self.in_S1_idproduto.text(), self.in_S1_novaquantidade.text())):
+            QMessageBox.about(self.centralwidget, "Simulação", "Dados alterados com sucesso!")
+        else:
+            QMessageBox.about(self.centralwidget, "Simulação", "Dados não alterados.")
+
+    # abrir janela de simulação 2
     def click_actionS2(self, MainWindow):
-        self.widgetS2.show()
+        self.widget_S2.show()
 
-        self.widgetS1.close()
-        self.widgetS3.close()
+        self.widget_S1.close()
+        self.widget_S3.close()
         self.widget.close()
         self.widget_relatorio.close()
+    
+    def click_S2_alterar(self, MainWindow):
+        if(focus.s2(self.in_S2_idsub.text(), self.in_S2_idcategoria.text())):
+            QMessageBox.about(self.centralwidget, "Simulação", "Dados alterados com sucesso!")
+        else:
+            QMessageBox.about(self.centralwidget, "Simulação", "Dados não alterados.")
 
+    # abrir janela de simulação 3
     def click_actionS3(self, MainWindow):
-        self.widgetS3.show()
+        self.widget_S3.show()
 
-        self.widgetS1.close()
-        self.widgetS2.close()
+        self.widget_S1.close()
+        self.widget_S2.close()
         self.widget.close()
         self.widget_relatorio.close()
 
+    def click_S3_alterar_1(self, MainWindow):
+        if(focus.s3_1(self.in_S2_1.text())):
+            QMessageBox.about(self.centralwidget, "Simulação", "Dados alterados com sucesso!")
+        else:
+            QMessageBox.about(self.centralwidget, "Simulação", "Dados não alterados.")
+
+    def click_S3_alterar_2(self, MainWindow):
+        if(focus.s3_2(self.in_S3_datainicial.text(), self.in_S3_datafinal.text(), self.in_S3_desconto.text())):
+            QMessageBox.about(self.centralwidget, "Simulação", "Dados alterados com sucesso!")
+        else:
+            QMessageBox.about(self.centralwidget, "Simulação", "Dados não alterados.")
+
+    def click_S3_alterar_3(self, MainWindow):
+        if(focus.s3_3(self.in_S3_datainicial_3.text(), self.in_S3_datafinal_3.text(), self.in_S3_valormin_3.text(), self.in_S3_desconto.text())):
+            QMessageBox.about(self.centralwidget, "Simulação", "Dados alterados com sucesso!")
+        else:
+            QMessageBox.about(self.centralwidget, "Simulação", "Dados não alterados.")
+
+    def click_S3_alterar_4(self, MainWindow):
+        if(focus.s3_4(self.in_S3_siglapais.text(), self.in_S3_descontopais.text())):
+            QMessageBox.about(self.centralwidget, "Simulação", "Dados alterados com sucesso!")
+        else:
+            QMessageBox.about(self.centralwidget, "Simulação", "Dados não alterados.")
+
+    def click_S3_alterar_5(self, MainWindow):
+        if(focus.s3_5(self.in_S2_3.text())):
+            QMessageBox.about(self.centralwidget, "Simulação", "Dados alterados com sucesso!")
+        else:
+            QMessageBox.about(self.centralwidget, "Simulação", "Dados não alterados.")
 
 
     # botao de ação de overview
     def click_overview(self, MainWindow):
-        exibe_overview()
+        self.exibe_overview()
 
-
-    def exibe_overview():
+    def exibe_overview(self):
         self.widget.show()
 
         self.widget_relatorio.close()
-        self.widgetS1.show()
-        self.widgetS2.close()
-        self.widgetS3.close()
+        self.widget_S1.close()
+        self.widget_S2.close()
+        self.widget_S3.close()
+
+    def click_creditos(self, MainWindow):
+        QMessageBox.about(self.centralwidget, "Créditos", "Sistema desenvolvido por: Yago Pessoa, Gustavo Moura e Alef Segura no âmbito da disciplina de Laboratório de Banco de Dados - ICMC - USP - junho de 2018")
+
 
 
 
