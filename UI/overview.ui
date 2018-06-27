@@ -1207,6 +1207,7 @@
     <property name="title">
      <string>Overview</string>
     </property>
+    <addaction name="actionVisualizar"/>
    </widget>
    <addaction name="menuUser"/>
    <addaction name="menuOverview"/>
@@ -1277,6 +1278,11 @@
   <action name="actionOverview">
    <property name="text">
     <string>Overview</string>
+   </property>
+  </action>
+  <action name="actionVisualizar">
+   <property name="text">
+    <string>Visualizar</string>
    </property>
   </action>
  </widget>
