@@ -29,6 +29,7 @@ class Ui_MainWindow(object):
             self.actionR6.setEnabled(True)   #
             self.actionR7.setEnabled(False)
             self.menuSim.setEnabled(False)
+            self.menuOverview.setEnabled(False)
 
 
         elif self.tipoUser == 2:
@@ -41,6 +42,7 @@ class Ui_MainWindow(object):
             self.actionR6.setEnabled(True)   #
             self.actionR7.setEnabled(False)
             self.menuSim.setEnabled(True)    #
+            self.menuOverview.setEnabled(False)
 
         elif self.tipoUser == 3:
             # Tem acesso a tudo
@@ -48,10 +50,11 @@ class Ui_MainWindow(object):
             self.actionR2.setEnabled(True)
             self.actionR3.setEnabled(True)
             self.actionR4.setEnabled(True)
-            self.actionR5.setEnabled(True)   #
-            self.actionR6.setEnabled(True)   #
+            self.actionR5.setEnabled(True)
+            self.actionR6.setEnabled(True)
             self.actionR7.setEnabled(True)
             self.menuSim.setEnabled(True)
+            self.menuOverview.setEnabled(True)
 
     # Define o que cada botão da interface executa
     def selClick(self):
@@ -86,10 +89,15 @@ class Ui_MainWindow(object):
         self.actionS1.triggered.connect(self.click_actionS1)
         self.actionS2.triggered.connect(self.click_actionS2)
         self.actionS3.triggered.connect(self.click_actionS3)
-        self.actionSair.triggered.connect(self.click_overview)
+        self.actionVisualizar.triggered.connect(self.click_overview)
 
         self.in_1_data.dateChanged.connect(self.atualiza_1)
         self.in_2_data.dateChanged.connect(self.atualiza_2)
+        self.in_4_data.dateChanged.connect(self.atualiza_4)
+        self.in_7_data.dateChanged.connect(self.atualiza_7)
+        self.in_8_data_1.dateChanged.connect(self.atualiza_8)
+        self.in_8_data_2.dateChanged.connect(self.atualiza_8)
+
 
         self.pesquisar.clicked.connect(self.selClick)
 
@@ -111,7 +119,7 @@ class Ui_MainWindow(object):
         self.lb_titulo.setText(titulo)
 
     # Standard para criação de relatório
-    def criaRelatorio(self, id, titulo, tabledata, header):
+    def criaRelatorio(self, id, titulo, consulta, tabledata, header):
         self.id_relatorio = id
 
         self.widget.close()
@@ -120,6 +128,7 @@ class Ui_MainWindow(object):
         self.widget_relatorio_P3.close()
 
         self.lb_titulo.setText(titulo)
+        self.lb_consulta.setText(consulta)
 
         # Criação da tabela de relatorio generica
         tablemodel = MyTableModel(tabledata, header, self)
@@ -132,23 +141,14 @@ class Ui_MainWindow(object):
         self.tb_relatorio.resizeRowsToContents()
 
     def click_actionR1(self, MainWindow):
-        tabledata = connection.rel_1()
-        header = ['NOME', 'E-MAIL', 'DATA DA VENDA', 'TIPO DE CARTÃO', 'NÚMERO DO CARTÃO', 'MÊS DA VALIDADE DO CARTÃO', 'ANO DA VALIDADE DO CARTÃO']
-        self.criaRelatorio(1, "Clientes com Cartões Vencidos", tabledata, header)
-
-
-    '''
-    # com filtro
-    def click_actionR1(self, MainWindow):
         tabledata = connection.rel_1(self.in_pesquisa.text())
         header = ['NOME', 'E-MAIL', 'DATA DA VENDA', 'TIPO DE CARTÃO', 'NÚMERO DO CARTÃO', 'MÊS DA VALIDADE DO CARTÃO', 'ANO DA VALIDADE DO CARTÃO']
-        self.criaRelatorio(1, "Clientes com Cartões Vencidos", tabledata, header)
-    '''
+        self.criaRelatorio(1, "Clientes com Cartões Vencidos", "por nome", tabledata, header)
 
     def click_actionR2(self, MainWindow):
-        tabledata = connection.rel_2()
+        tabledata = connection.rel_2(self.in_pesquisa.text())
         header = ['NOME', 'DEPARTAMENTO', 'TURNO', 'DATA DE ENTRADA', 'DATA DE SAÍDA']
-        self.criaRelatorio(2, "Histórico de Departamento de Funcionários", tabledata, header)
+        self.criaRelatorio(2, "Histórico de Departamento de Funcionários", "por nome", tabledata, header)
 
     def click_actionR3(self, MainWindow):
         self.widget.close()
@@ -157,8 +157,12 @@ class Ui_MainWindow(object):
         self.widget_relatorio_P3.show()
         id_relatorio = 3
         self.lb_titulo.setText("Dados de frete")
+        self.lb_consulta.setText("por ano (yyyy)")
 
-        tabledata1 = connection.rel_3_1()
+        ano = self.in_pesquisa.text()
+
+
+        tabledata1 = connection.rel_3_1(ano)
         header1 = ['SOMA TOTAL DOS FRETES', 'ANO']
         tablemodel1 = MyTableModel(tabledata1, header1, self)
         self.tb_relatorio_P3_1.setModel(tablemodel1)
@@ -169,7 +173,7 @@ class Ui_MainWindow(object):
         self.tb_relatorio_P3_1.resizeColumnsToContents()
         self.tb_relatorio_P3_1.resizeRowsToContents()
 
-        tabledata2 = connection.rel_3_2()
+        tabledata2 = connection.rel_3_2(ano)
         header2 = ['> 2000um', 'ANO']
         tablemodel2 = MyTableModel(tabledata2, header2, self)
         self.tb_relatorio_P3_2.setModel(tablemodel2)
@@ -180,7 +184,7 @@ class Ui_MainWindow(object):
         self.tb_relatorio_P3_2.resizeColumnsToContents()
         self.tb_relatorio_P3_2.resizeRowsToContents()
 
-        tabledata3 = connection.rel_3_3()
+        tabledata3 = connection.rel_3_3(ano)
         header3 = ['<= 2000um', 'ANO']
         tablemodel3 = MyTableModel(tabledata3, header3, self)
         self.tb_relatorio_P3_3.setModel(tablemodel3)
@@ -194,22 +198,22 @@ class Ui_MainWindow(object):
     def click_actionR4(self, MainWindow):
         tabledata = connection.rel_4(self.in_pesquisa.text())
         header = ['MÊS', 'TOTAL VENDIDO']
-        self.criaRelatorio(4, "Informações das vendas anuais", tabledata, header)
+        self.criaRelatorio(4, "Informações das vendas anuais", "por ano (yyyy)", tabledata, header)
 
     def click_actionR5(self, MainWindow):
-        tabledata = connection.rel_5()
+        tabledata = connection.rel_5(self.in_pesquisa.text())
         header = ['NOME', 'PREÇO', 'PESO', 'CATEGORIA', 'QUANTIDADE']
-        self.criaRelatorio(5, "Top 15 produtos vendidos no semestre", tabledata, header)
+        self.criaRelatorio(5, "Top 15 produtos vendidos no semestre", "por data (DD/MM/yyyy)", tabledata, header)
 
     def click_actionR6(self, MainWindow):
-        tabledata = connection.rel_6()
+        tabledata = connection.rel_6(self.in_pesquisa.text())
         header = ['A-CATEGORIA', 'A-SUBCATEGORIA', 'A-PRODUTO', 'A-QUANTIDADE', 'B-CATEGORIA', 'B-SUBCATEGORIA', 'B-PRODUTO', 'B-QUANTIDADE', 'TOTAL DOS DOIS JUNTOS']
-        self.criaRelatorio(6, "Produtos de vendas casadas", tabledata, header)
+        self.criaRelatorio(6, "Produtos de vendas casadas", "por quantidade",  tabledata, header)
 
     def click_actionR7(self, MainWindow):
-        tabledata = connection.rel_7()
+        tabledata = connection.rel_7(self.in_pesquisa.text())
         header = ['TOTAL VENDIDO', 'PAÍS', ]
-        self.criaRelatorio(7, "Vendas por país", tabledata, header)
+        self.criaRelatorio(7, "Vendas por país", "por país", tabledata, header)
 
     def click_actionS1(self, MainWindow):
         pass
@@ -396,7 +400,7 @@ class Ui_MainWindow(object):
         self.lb_tipouser.setObjectName("lb_tipouser")
         self.widget_relatorio = QtWidgets.QWidget(self.centralwidget)
         self.widget_relatorio.setEnabled(True)
-        self.widget_relatorio.setGeometry(QtCore.QRect(160, 880, 981, 491))
+        self.widget_relatorio.setGeometry(QtCore.QRect(20, 30, 981, 491))
         self.widget_relatorio.setObjectName("widget_relatorio")
         self.in_pesquisa = QtWidgets.QLineEdit(self.widget_relatorio)
         self.in_pesquisa.setGeometry(QtCore.QRect(20, 50, 181, 20))
@@ -433,6 +437,13 @@ class Ui_MainWindow(object):
         self.tb_relatorio_P3_3.setGeometry(QtCore.QRect(570, 20, 261, 381))
         self.tb_relatorio_P3_3.setSortingEnabled(False)
         self.tb_relatorio_P3_3.setObjectName("tb_relatorio_P3_3")
+        self.lb_consulta = QtWidgets.QLabel(self.widget_relatorio)
+        self.lb_consulta.setGeometry(QtCore.QRect(290, 50, 111, 20))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(8)
+        self.lb_consulta.setFont(font)
+        self.lb_consulta.setObjectName("lb_consulta")
         self.widget_simulacao = QtWidgets.QWidget(self.centralwidget)
         self.widget_simulacao.setGeometry(QtCore.QRect(20, 950, 701, 381))
         self.widget_simulacao.setObjectName("widget_simulacao")
@@ -443,23 +454,10 @@ class Ui_MainWindow(object):
         font.setPointSize(11)
         self.lb_titulo_2.setFont(font)
         self.lb_titulo_2.setObjectName("lb_titulo_2")
-        self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
-        self.scrollArea.setGeometry(QtCore.QRect(0, 40, 1631, 831))
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollArea.setObjectName("scrollArea")
-        self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1629, 829))
-        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        self.widget = QtWidgets.QWidget(self.scrollAreaWidgetContents)
-        self.widget.setGeometry(QtCore.QRect(0, 0, 1631, 801))
+        self.widget = QtWidgets.QWidget(self.centralwidget)
+        self.widget.setGeometry(QtCore.QRect(30, 40, 1631, 801))
         self.widget.setObjectName("widget")
-        self.frame = QtWidgets.QFrame(self.widget)
-        self.frame.setEnabled(True)
-        self.frame.setGeometry(QtCore.QRect(10, 10, 1611, 781))
-        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame.setObjectName("frame")
-        self.groupBox = QtWidgets.QGroupBox(self.frame)
+        self.groupBox = QtWidgets.QGroupBox(self.widget)
         self.groupBox.setEnabled(True)
         self.groupBox.setGeometry(QtCore.QRect(10, 10, 381, 121))
         font = QtGui.QFont()
@@ -541,7 +539,7 @@ class Ui_MainWindow(object):
         self.line_3.setFrameShape(QtWidgets.QFrame.VLine)
         self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_3.setObjectName("line_3")
-        self.groupBox_2 = QtWidgets.QGroupBox(self.frame)
+        self.groupBox_2 = QtWidgets.QGroupBox(self.widget)
         self.groupBox_2.setGeometry(QtCore.QRect(10, 140, 381, 201))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
@@ -628,21 +626,7 @@ class Ui_MainWindow(object):
         self.line.setFrameShape(QtWidgets.QFrame.VLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
-        self.groupBox_3 = QtWidgets.QGroupBox(self.frame)
-        self.groupBox_3.setGeometry(QtCore.QRect(400, 10, 381, 331))
-        font = QtGui.QFont()
-        font.setFamily("Century Gothic")
-        font.setPointSize(11)
-        self.groupBox_3.setFont(font)
-        self.groupBox_3.setObjectName("groupBox_3")
-        self.tb_3 = QtWidgets.QTableView(self.groupBox_3)
-        self.tb_3.setGeometry(QtCore.QRect(10, 21, 361, 301))
-        font = QtGui.QFont()
-        font.setFamily("Century Gothic")
-        font.setPointSize(10)
-        self.tb_3.setFont(font)
-        self.tb_3.setObjectName("tb_3")
-        self.groupBox_4 = QtWidgets.QGroupBox(self.frame)
+        self.groupBox_4 = QtWidgets.QGroupBox(self.widget)
         self.groupBox_4.setGeometry(QtCore.QRect(10, 350, 381, 281))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
@@ -672,7 +656,7 @@ class Ui_MainWindow(object):
         font.setPointSize(8)
         self.label_14.setFont(font)
         self.label_14.setObjectName("label_14")
-        self.groupBox_5 = QtWidgets.QGroupBox(self.frame)
+        self.groupBox_5 = QtWidgets.QGroupBox(self.widget)
         self.groupBox_5.setGeometry(QtCore.QRect(400, 350, 381, 281))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
@@ -686,7 +670,21 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.tb_5.setFont(font)
         self.tb_5.setObjectName("tb_5")
-        self.groupBox_6 = QtWidgets.QGroupBox(self.frame)
+        self.groupBox_3 = QtWidgets.QGroupBox(self.widget)
+        self.groupBox_3.setGeometry(QtCore.QRect(400, 10, 381, 331))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(11)
+        self.groupBox_3.setFont(font)
+        self.groupBox_3.setObjectName("groupBox_3")
+        self.tb_3 = QtWidgets.QTableView(self.groupBox_3)
+        self.tb_3.setGeometry(QtCore.QRect(10, 21, 361, 301))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(10)
+        self.tb_3.setFont(font)
+        self.tb_3.setObjectName("tb_3")
+        self.groupBox_6 = QtWidgets.QGroupBox(self.widget)
         self.groupBox_6.setGeometry(QtCore.QRect(790, 10, 461, 161))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
@@ -700,7 +698,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.tb_6.setFont(font)
         self.tb_6.setObjectName("tb_6")
-        self.groupBox_7 = QtWidgets.QGroupBox(self.frame)
+        self.groupBox_7 = QtWidgets.QGroupBox(self.widget)
         self.groupBox_7.setGeometry(QtCore.QRect(790, 180, 461, 221))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
@@ -729,7 +727,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.tb_7.setFont(font)
         self.tb_7.setObjectName("tb_7")
-        self.groupBox_8 = QtWidgets.QGroupBox(self.frame)
+        self.groupBox_8 = QtWidgets.QGroupBox(self.widget)
         self.groupBox_8.setGeometry(QtCore.QRect(790, 410, 461, 221))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
@@ -775,7 +773,13 @@ class Ui_MainWindow(object):
         self.in_8_data_2.setCurrentSection(QtWidgets.QDateTimeEdit.YearSection)
         self.in_8_data_2.setCalendarPopup(True)
         self.in_8_data_2.setObjectName("in_8_data_2")
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.label.raise_()
+        self.lb_nomeuser.raise_()
+        self.label_3.raise_()
+        self.lb_tipouser.raise_()
+        self.widget_simulacao.raise_()
+        self.widget.raise_()
+        self.widget_relatorio.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1638, 21))
@@ -818,6 +822,8 @@ class Ui_MainWindow(object):
         self.actionCr_ditos.setObjectName("actionCr_ditos")
         self.actionOverview = QtWidgets.QAction(MainWindow)
         self.actionOverview.setObjectName("actionOverview")
+        self.actionVisualizar = QtWidgets.QAction(MainWindow)
+        self.actionVisualizar.setObjectName("actionVisualizar")
         self.menuUser.addAction(self.actionSair)
         self.menuUser.addSeparator()
         self.menuUser.addAction(self.actionCr_ditos)
@@ -831,11 +837,13 @@ class Ui_MainWindow(object):
         self.menuRel.addAction(self.actionR5)
         self.menuRel.addAction(self.actionR6)
         self.menuRel.addAction(self.actionR7)
+        self.menuOverview.addAction(self.actionVisualizar)
         self.menubar.addAction(self.menuUser.menuAction())
         self.menubar.addAction(self.menuOverview.menuAction())
         self.menubar.addAction(self.menuRel.menuAction())
         self.menubar.addAction(self.menuSim.menuAction())
         self.lb_titulo.setBuddy(self.in_1_data)
+        self.lb_consulta.setBuddy(self.in_1_data)
         self.lb_titulo_2.setBuddy(self.in_1_data)
         self.label_6.setBuddy(self.in_1_data)
         self.label_13.setBuddy(self.in_2_data)
@@ -867,6 +875,7 @@ class Ui_MainWindow(object):
         self.in_pesquisa.setText(_translate("MainWindow", "Pesquisar"))
         self.pesquisar.setText(_translate("MainWindow", "Pesquisar"))
         self.lb_titulo.setText(_translate("MainWindow", "Relatório Bla bla bla"))
+        self.lb_consulta.setText(_translate("MainWindow", "filtro"))
         self.lb_titulo_2.setText(_translate("MainWindow", "Simulação Bla bla bla"))
         self.groupBox.setTitle(_translate("MainWindow", "Total Vendido"))
         self.label_2.setText(_translate("MainWindow", "Dia"))
@@ -887,11 +896,11 @@ class Ui_MainWindow(object):
         self.lb_2_m3.setText(_translate("MainWindow", "Jaur"))
         self.lb_2_a2.setText(_translate("MainWindow", "Neir"))
         self.lb_2_a3.setText(_translate("MainWindow", "Noir"))
-        self.groupBox_3.setTitle(_translate("MainWindow", "Top 15 Produtos Mais Vendidos"))
         self.groupBox_4.setTitle(_translate("MainWindow", "Melhores clientes do Ano"))
         self.in_4_data.setDisplayFormat(_translate("MainWindow", "yyyy"))
         self.label_14.setText(_translate("MainWindow", "Selecione o período:"))
         self.groupBox_5.setTitle(_translate("MainWindow", "Melhores clientes Ever"))
+        self.groupBox_3.setTitle(_translate("MainWindow", "Top 15 Produtos Mais Vendidos"))
         self.groupBox_6.setTitle(_translate("MainWindow", "!!! Produtos acabando !!!"))
         self.groupBox_7.setTitle(_translate("MainWindow", "Total Vendido por Mês"))
         self.label_16.setText(_translate("MainWindow", "Selecione o período:"))
@@ -918,6 +927,9 @@ class Ui_MainWindow(object):
         self.actionS3.setText(_translate("MainWindow", "S3 - Venda"))
         self.actionCr_ditos.setText(_translate("MainWindow", "Créditos"))
         self.actionOverview.setText(_translate("MainWindow", "Overview"))
+        self.actionVisualizar.setText(_translate("MainWindow", "Visualizar"))
+
+
 
 
 
